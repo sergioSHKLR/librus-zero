@@ -212,19 +212,25 @@
   const toc = document.getElementById('p1'), lib = document.getElementById('p5');
   const p1Toggle = document.getElementById('p1-open'), p5Toggle = document.getElementById('p5-open');
 
+  // 2. Clear out old 'openBtn' / 'sidebar' dependencies and map toggles cleanly
   p1Toggle.onclick = (e) => { e.stopPropagation(); toc.classList.add('active'); };
   p5Toggle.onclick = (e) => { e.stopPropagation(); lib.classList.add('active'); };
 
+  // 3. Global Click Out Processing Condition Boundaries
   document.onclick = (e) => {
-   if (toc.classList.contains('active') && !toc.contains(e.target) && !p1Toggle.contains(e.target)) toc.classList.remove('active');
-   if (lib.classList.contains('active') && !lib.contains(e.target) && !p5Toggle.contains(e.target)) lib.classList.remove('active');
+   if (toc.classList.contains('active') && !toc.contains(e.target) && !p1Toggle.contains(e.target)) {
+    toc.classList.remove('active');
+   }
+   if (lib.classList.contains('active') && !lib.contains(e.target) && !p5Toggle.contains(e.target)) {
+    lib.classList.remove('active');
+   }
   };
 
   // IMMORTAL PARSING PIPELINE (Runs inside idle frames to preserve your 98+ performance score)
   window.addEventListener('DOMContentLoaded', () => {
    (window.requestIdleCallback || window.setTimeout)(async () => {
     try {
-     // FIX 1: Import marked cleanly as an ES Module object
+     // FIX 1: Import marked cleanly as a structured ES Module object
      const { marked } = await import('https://jsdelivr.net');
 
      // FIX 2: Explicitly query relative repository file paths so GitHub Pages sub-directories match
@@ -239,7 +245,7 @@
      const tocContainer = document.getElementById('toc');
      const headings = document.getElementById('content-area').querySelectorAll('h1, h2, h3');
      
-     if(headings.length === 0) {
+     if (headings.length === 0) {
        tocContainer.innerHTML += '<p style="font-size:12px;color:#8c95a0">No markdown headings found.</p>';
      }
 
@@ -270,6 +276,7 @@
    });
   });
  </script>
+
 
  </body>
 
