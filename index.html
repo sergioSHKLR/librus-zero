@@ -4,6 +4,8 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+   content="The Immortal Archive: A high-performance, zero-build monolithic documentation repository designed for generational survival.">
   <title>The Immortal Archive</title>
   <style>
    body {
@@ -68,6 +70,7 @@
     overflow-y: auto;
    }
 
+   /* Retained for performance optimizations */
    .p1,
    .p5 {
     position: absolute;
@@ -152,6 +155,23 @@
     background-color: #f6f8fa;
    }
 
+   .icon-btn {
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    padding: 4px;
+    cursor: pointer;
+    color: #586069;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+   }
+
+   .icon-btn:hover {
+    background-color: #f6f8fa;
+    color: #24292e;
+   }
+
    @media (max-width: 767px) {
     .p3 {
      display: none;
@@ -161,9 +181,9 @@
  </head>
 
  <body>
-
   <div class="p0">
-   <button id="p1-open" class="nav-btn">
+   <!-- Added initial aria accessibility markers -->
+   <button id="p1-open" class="nav-btn" aria-expanded="false" aria-controls="p1">
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"
      stroke-linecap="round">
      <line x1="2" y1="4" x2="14" y2="4" />
@@ -171,7 +191,7 @@
      <line x1="2" y1="12" x2="10" y2="12" />
     </svg> TOC
    </button>
-   <button id="p5-open" class="nav-btn">
+   <button id="p5-open" class="nav-btn" aria-expanded="false" aria-controls="p5">
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"
      stroke-linecap="round">
      <circle cx="7" cy="7" r="4" />
@@ -181,32 +201,32 @@
   </div>
 
   <div class="main-workspace">
-   <!-- Table of Contents Sidebar -->
    <div id="p1" class="p1">
     <div id="toc" class="sidebar-nav">
-     <h3>Chapters</h3><!-- Loaded by JS -->
+     <h3>Chapters</h3>
     </div>
    </div>
 
-   <!-- Main text viewer -->
    <main class="p2">
     <div class="panel-header"><strong>Document Workspace</strong></div>
     <div id="content-area" class="panel-body">Loading Archive...</div>
    </main>
 
    <aside class="p3">
- <div class="panel-header">
-  <button class="icon-btn" aria-label="Search highlighted text">
-   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M13.5 5.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM2.5 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM13.5 14.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM4.3 7.2l7.4-3.4M4.3 8.8l7.4 3.4" />
-   </svg>
-  </button>
- </div>
- <div class="panel-body" style="padding:0;">
-  <!-- Added the active iframe layout placeholder here -->
-  <iframe id="preview-iframe" src="about:blank" style="width:100%; height:100%; border:none;"></iframe>
- </div>
-</aside>
+    <div class="panel-header">
+     <button class="icon-btn" aria-label="Search highlighted text">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"
+       stroke-linecap="round" stroke-linejoin="round">
+       <path
+        d="M13.5 5.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM2.5 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM13.5 14.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM4.3 7.2l7.4-3.4M4.3 8.8l7.4 3.4" />
+      </svg>
+     </button>
+    </div>
+    <div class="panel-body" style="padding:0;">
+     <iframe id="preview-iframe" src="about:blank"
+      style="width:100%; height:100%; border:none; background:#fff;"></iframe>
+    </div>
+   </aside>
 
    <div id="p5" class="p5">
     <div class="sidebar-nav">
@@ -215,81 +235,74 @@
     </div>
    </div>
   </div>
-    <script type="module">
-  // 1. Core Structural DOM References Configuration
-  const toc = document.getElementById('p1'), lib = document.getElementById('p5');
-  const p1Toggle = document.getElementById('p1-open'), p5Toggle = document.getElementById('p5-open');
 
-  p1Toggle.onclick = (e) => { e.stopPropagation(); toc.classList.add('active'); };
-  p5Toggle.onclick = (e) => { e.stopPropagation(); lib.classList.add('active'); };
 
-  document.onclick = (e) => {
-   if (toc.classList.contains('active') && !toc.contains(e.target) && !p1Toggle.contains(e.target)) toc.classList.remove('active');
-   if (lib.classList.contains('active') && !lib.contains(e.target) && !p5Toggle.contains(e.target)) lib.classList.remove('active');
-  };
+  <script type="module">
+   const toc = document.getElementById('p1'), lib = document.getElementById('p5');
+   const p1Toggle = document.getElementById('p1-open'), p5Toggle = document.getElementById('p5-open');
 
-  // IMMORTAL PARSING PIPELINE
-  window.addEventListener('DOMContentLoaded', () => {
-   (window.requestIdleCallback || window.setTimeout)(async () => {
-    try {
-     const { marked } = await import('https://jsdelivr.net');
+   // Helper tracking to switch state tags for assistive screen devices
+   function toggleSidebar(el, btn, forceClose = false) {
+    const opening = forceClose ? false : !el.classList.contains('active');
+    el.classList.toggle('active', opening);
+    btn.setAttribute('aria-expanded', opening);
+   }
 
-     const response = await fetch('./giant-book.md');
-     if (!response.ok) throw new Error(`HTTP Error Status: ${response.status}`);
-     const markdownText = await response.text();
+   p1Toggle.onclick = (e) => { e.stopPropagation(); toggleSidebar(toc, p1Toggle); };
+   p5Toggle.onclick = (e) => { e.stopPropagation(); toggleSidebar(lib, p5Toggle); };
 
-     // Mount Markdown inside p2 area container
-     const contentArea = document.getElementById('content-area');
-     contentArea.innerHTML = marked.parse(markdownText);
+   document.onclick = (e) => {
+    if (toc.classList.contains('active') && !toc.contains(e.target) && !p1Toggle.contains(e.target)) toggleSidebar(toc, p1Toggle, true);
+    if (lib.classList.contains('active') && !lib.contains(e.target) && !p5Toggle.contains(e.target)) toggleSidebar(lib, p5Toggle, true);
+   };
 
-     // Build TOC out of headers
-     const tocContainer = document.getElementById('toc');
-     const headings = contentArea.querySelectorAll('h1, h2, h3');
-     headings.forEach((heading, index) => {
-      const id = 'ch-' + index; heading.id = id;
-      const link = document.createElement('a');
-      link.href = '#' + id;
-      link.textContent = heading.textContent;
-      if (heading.tagName === 'H2') link.style.paddingLeft = '12px';
-      if (heading.tagName === 'H3') link.style.paddingLeft = '24px';
-      link.onclick = () => { toc.classList.remove('active'); };
-      tocContainer.appendChild(link);
-     });
+   // IMMORTAL PIPELINE SETUP
+   window.addEventListener('DOMContentLoaded', () => {
+    // Explicit clean fallback closure parameter for calculation queues
+    (window.requestIdleCallback || ((cb) => setTimeout(cb, 0)))(async () => {
+     try {
+      // Unpack dependencies using clean, fully qualified ESM endpoint coordinates
+      const [markedMod, purifyMod] = await Promise.all([
+       import('https://cdn.jsdelivr.net/npm/marked@5.1.1/lib/marked.esm.js'),
+       import('https://cdn.jsdelivr.net/npm/dompurify@2.4.0/dist/purify.es.js')
+      ]);
+      const { marked } = markedMod;
+      const DOMPurify = (purifyMod && (purifyMod.default || purifyMod.DOMPurify || purifyMod)) || window.DOMPurify;
 
-     // FIX: Non-blocking text highlight capturing handler loop
-     // Targets the share icon button in the panel header of .p3
-     const shareBtn = document.querySelector('.p3 .icon-btn');
-     const previewIframe = document.getElementById('preview-iframe');
+      const response = await fetch('./giant-book.md');
+      if (!response.ok) throw new Error(`HTTP Error Status: ${response.status}`);
+      const markdownText = await response.text();
 
-     shareBtn.onclick = () => {
-      // Native high-efficiency browser string lookup retrieval API
-      const selectedText = window.getSelection().toString().trim();
-      
-      if (selectedText) {
-       console.log("Highlighted term caught:", selectedText);
-       
-       // Example query structure: Triggers an archive query search inside your active target frame
-       // Change '://example.com' to your specific tool workflow URL pathway
-       previewIframe.src = `https://://example.com${encodeURIComponent(selectedText)}`;
-      } else {
-       alert("Highlight a word or term in the text viewer pane first.");
-      }
-     };
+      // Fix: Secure layout strings against XSS attacks before injecting them into the DOM
+      const contentArea = document.getElementById('content-area');
+      const rawHTML = marked.parse(markdownText);
+      contentArea.innerHTML = DOMPurify.sanitize(rawHTML);
 
-     // Fallback frame handling for iframe focus shifts (closes menus)
-     window.onblur = () => {
-      setTimeout(() => {
-       if (document.activeElement && document.activeElement.tagName === 'IFRAME') {
-        toc.classList.remove('active'); lib.classList.remove('active');
-       }
-      }, 50);
-     };
+      // Map Table of Contents links out of generated slug strings
+      const tocContainer = document.getElementById('toc');
+      const headings = contentArea.querySelectorAll('h1, h2, h3');
 
-    } catch (err) {
-     console.error("Initialization Error:", err);
-    }
+      headings.forEach((heading) => {
+       // Slugify: Convert text title spaces into URL-friendly semantic target hashes
+       const slug = heading.textContent.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+       heading.id = slug;
+
+       const link = document.createElement('a');
+       link.href = '#' + slug;
+       link.textContent = heading.textContent;
+       if (heading.tagName === 'H2') link.style.paddingLeft = '12px';
+       if (heading.tagName === 'H3') link.style.paddingLeft = '24px';
+       link.onclick = () => { toggleSidebar(toc, p1Toggle, true); };
+       tocContainer.appendChild(link);
+      });
+
+     } catch (err) {
+      console.error("Initialization Error:", err);
+      document.getElementById('content-area').innerHTML = `<p style="color:red">Failed to load markdown: ${err.message}</p>`;
+     }
+    });
    });
-  });
- </script>
+  </script>
  </body>
+
 </html>
