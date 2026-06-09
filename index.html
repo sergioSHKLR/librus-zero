@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Immortal Archive</title>
+  <style>
+   body {
+    margin: 0;
+    padding: 16px;
+    height: 100vh;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: #fff;
+    color: #24292e;
+   }
+
+   .p0 {
+    display: flex;
+    height: 40px;
+    border-bottom: 1px solid #e1e4e8;
+    gap: 8px;
+    padding-bottom: 12px;
+    align-items: center;
+   }
+
+   .main-workspace {
+    display: flex;
+    flex: 1;
+    position: relative;
+    padding-top: 12px;
+    min-height: 0;
+   }
+
+   .p2,
+   .p3 {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+   }
+
+   .p2 {
+    padding-right: 16px;
+   }
+
+   .p3 {
+    border-left: 1px solid #e1e4e8;
+    padding-left: 16px;
+   }
+
+   .panel-header {
+    display: flex;
+    height: 32px;
+    align-items: center;
+    gap: 4px;
+    border-bottom: 1px dashed #e1e4e8;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+   }
+
+   .panel-body {
+    flex: 1;
+    overflow-y: auto;
+   }
+
+   .p1,
+   .p5 {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    background: #fff;
+    transition: transform .25s cubic-bezier(0, 0, 0.2, 1);
+    will-change: transform;
+    content-visibility: hidden;
+   }
+
+   .p1 {
+    left: -320px;
+    width: 280px;
+    border-right: 1px solid #e1e4e8;
+    z-index: 10;
+   }
+
+   .p5 {
+    left: calc(-100% - 32px);
+    width: 100%;
+    z-index: 20;
+   }
+
+   .p1.active,
+   .p5.active {
+    content-visibility: visible;
+   }
+
+   .p1.active {
+    transform: translateX(320px);
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.03);
+   }
+
+   .p5.active {
+    transform: translateX(calc(100% + 32px));
+   }
+
+   .sidebar-nav {
+    padding-right: 20px;
+   }
+
+   .sidebar-nav h3 {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #8c95a0;
+    letter-spacing: 0.5px;
+    margin: 0 0 12px;
+   }
+
+   .sidebar-nav a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    color: #444d56;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 6px;
+    margin-bottom: 2px;
+   }
+
+   .sidebar-nav a:hover {
+    background-color: #f6f8fa;
+    color: #0366d6;
+   }
+
+   .nav-btn {
+    background: transparent;
+    border: 1px solid #e1e4e8;
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: #24292e;
+    display: inline-flex;
+    align-items: center;
+   }
+
+   .nav-btn:hover {
+    background-color: #f6f8fa;
+   }
+
+   @media (max-width: 767px) {
+    .p3 {
+     display: none;
+    }
+   }
+  </style>
+ </head>
+
+ <body>
+
+  <div class="p0">
+   <button id="p1-open" class="nav-btn">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"
+     stroke-linecap="round">
+     <line x1="2" y1="4" x2="14" y2="4" />
+     <line x1="2" y1="8" x2="14" y2="8" />
+     <line x1="2" y1="12" x2="10" y2="12" />
+    </svg> TOC
+   </button>
+   <button id="p5-open" class="nav-btn">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"
+     stroke-linecap="round">
+     <circle cx="7" cy="7" r="4" />
+     <line x1="14" y1="14" x2="10" y2="10" />
+    </svg> Library
+   </button>
+  </div>
+
+  <div class="main-workspace">
+   <!-- Table of Contents Sidebar -->
+   <div id="p1" class="p1">
+    <div id="toc" class="sidebar-nav">
+     <h3>Chapters</h3><!-- Loaded by JS -->
+    </div>
+   </div>
+
+   <!-- Main text viewer -->
+   <main class="p2">
+    <div class="panel-header"><strong>Document Workspace</strong></div>
+    <div id="content-area" class="panel-body">Loading Archive...</div>
+   </main>
+
+   <aside class="p3">
+    <div class="panel-header"><strong>Preview Inspector</strong></div>
+    <div id="preview-area" class="panel-body">Select text to view metadata metrics.</div>
+   </aside>
+
+   <div id="p5" class="p5">
+    <div class="sidebar-nav">
+     <h3>Library Volumes</h3>
+     <p>Static index data.</p>
+    </div>
+   </div>
+  </div>
+
+  <script>
+   // Setup interface panels
+   const toc = document.getElementById('p1'), lib = document.getElementById('p5');
+   const p1Toggle = document.getElementById('p1-open'), p5Toggle = document.getElementById('p5-open');
+
+   p1Toggle.onclick = (e) => { e.stopPropagation(); toc.classList.add('active'); };
+   p5Toggle.onclick = (e) => { e.stopPropagation(); lib.classList.add('active'); };
+
+   document.onclick = (e) => {
+    if (toc.classList.contains('active') && !toc.contains(e.target) && !p1Toggle.contains(event.target)) toc.classList.remove('active');
+    if (lib.classList.contains('active') && !lib.contains(e.target) && !p5Toggle.contains(event.target)) lib.classList.remove('active');
+   };
+
+   // IMMORTAL PARSING PIPELINE (Executes during idle time)
+   window.addEventListener('DOMContentLoaded', () => {
+    (window.requestIdleCallback || window.setTimeout)(async () => {
+     try {
+      // 1. Load a localized version of a standalone Markdown parser script (Self-hosted in repo for survivability)
+      // For this scaffolding, we load a reliable standalone script from a CDN. 
+      // For absolute permanence, save this raw JS file directly into your GitHub repo folder.
+      await import('https://jsdelivr.net');
+
+      // 2. Fetch your 20,000-line Markdown text file asynchronously
+      const response = await fetch('giant-book.md');
+      if (!response.ok) throw new Error("Could not find giant-book.md file.");
+      const markdownText = await response.text();
+
+      // 3. Render Markdown directly inside the browser client
+      document.getElementById('content-area').innerHTML = marked.parse(markdownText);
+
+      // 4. Generate Table of Contents dynamically by looking at headings in the rendered HTML
+      const tocContainer = document.getElementById('toc');
+      const headings = document.getElementById('content-area').querySelectorAll('h1, h2, h3');
+
+      headings.forEach((heading, index) => {
+       const id = 'heading-' + index;
+       heading.id = id; // Add unique ID to content headers so links function
+
+       const link = document.createElement('a');
+       link.href = '#' + id;
+       link.textContent = heading.textContent;
+       link.style.paddingLeft = (heading.tagName === 'H2' ? '12px' : heading.tagName === 'H3' ? '24px' : '0px');
+
+       // Close sidebar when selecting options on narrow mobile dimensions
+       link.onclick = () => { toc.classList.remove('active'); };
+       tocContainer.appendChild(link);
+      });
+
+     } catch (err) {
+      document.getElementById('content-area').innerHTML = `<p style="color:red">Error initialization: ${err.message}</p>`;
+     }
+    });
+   });
+  </script>
+ </body>
+
+</html>
