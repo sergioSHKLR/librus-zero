@@ -195,9 +195,18 @@
    </main>
 
    <aside class="p3">
-    <div class="panel-header"><strong>Preview Inspector</strong></div>
-    <div id="preview-area" class="panel-body">Select text to view metadata metrics.</div>
-   </aside>
+ <div class="panel-header">
+  <button class="icon-btn" aria-label="Search highlighted text">
+   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M13.5 5.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM2.5 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM13.5 14.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM4.3 7.2l7.4-3.4M4.3 8.8l7.4 3.4" />
+   </svg>
+  </button>
+ </div>
+ <div class="panel-body" style="padding:0;">
+  <!-- Added the active iframe layout placeholder here -->
+  <iframe id="preview-iframe" src="about:blank" style="width:100%; height:100%; border:none;"></iframe>
+ </div>
+</aside>
 
    <div id="p5" class="p5">
     <div class="sidebar-nav">
@@ -206,78 +215,81 @@
     </div>
    </div>
   </div>
-
-   <script type="module">
+    <script type="module">
   // 1. Core Structural DOM References Configuration
   const toc = document.getElementById('p1'), lib = document.getElementById('p5');
   const p1Toggle = document.getElementById('p1-open'), p5Toggle = document.getElementById('p5-open');
 
-  // 2. Clear out old 'openBtn' / 'sidebar' dependencies and map toggles cleanly
   p1Toggle.onclick = (e) => { e.stopPropagation(); toc.classList.add('active'); };
   p5Toggle.onclick = (e) => { e.stopPropagation(); lib.classList.add('active'); };
 
-  // 3. Global Click Out Processing Condition Boundaries
   document.onclick = (e) => {
-   if (toc.classList.contains('active') && !toc.contains(e.target) && !p1Toggle.contains(e.target)) {
-    toc.classList.remove('active');
-   }
-   if (lib.classList.contains('active') && !lib.contains(e.target) && !p5Toggle.contains(e.target)) {
-    lib.classList.remove('active');
-   }
+   if (toc.classList.contains('active') && !toc.contains(e.target) && !p1Toggle.contains(e.target)) toc.classList.remove('active');
+   if (lib.classList.contains('active') && !lib.contains(e.target) && !p5Toggle.contains(e.target)) lib.classList.remove('active');
   };
 
-  // IMMORTAL PARSING PIPELINE (Runs inside idle frames to preserve your 98+ performance score)
+  // IMMORTAL PARSING PIPELINE
   window.addEventListener('DOMContentLoaded', () => {
    (window.requestIdleCallback || window.setTimeout)(async () => {
     try {
-     // FIX 1: Import marked cleanly as a structured ES Module object
      const { marked } = await import('https://jsdelivr.net');
 
-     // FIX 2: Explicitly query relative repository file paths so GitHub Pages sub-directories match
      const response = await fetch('./giant-book.md');
      if (!response.ok) throw new Error(`HTTP Error Status: ${response.status}`);
      const markdownText = await response.text();
 
-     // Render the raw Markdown document into the main viewport area
-     document.getElementById('content-area').innerHTML = marked.parse(markdownText);
+     // Mount Markdown inside p2 area container
+     const contentArea = document.getElementById('content-area');
+     contentArea.innerHTML = marked.parse(markdownText);
 
-     // FIX 3: Robust dynamic Table of Contents mapping
+     // Build TOC out of headers
      const tocContainer = document.getElementById('toc');
-     const headings = document.getElementById('content-area').querySelectorAll('h1, h2, h3');
-     
-     if (headings.length === 0) {
-       tocContainer.innerHTML += '<p style="font-size:12px;color:#8c95a0">No markdown headings found.</p>';
-     }
-
+     const headings = contentArea.querySelectorAll('h1, h2, h3');
      headings.forEach((heading, index) => {
-      const id = 'ch-' + index;
-      heading.id = id;
-      
+      const id = 'ch-' + index; heading.id = id;
       const link = document.createElement('a');
       link.href = '#' + id;
       link.textContent = heading.textContent;
-      
-      // Indent side menu items nicely based on structural hierarchies
       if (heading.tagName === 'H2') link.style.paddingLeft = '12px';
       if (heading.tagName === 'H3') link.style.paddingLeft = '24px';
-      
       link.onclick = () => { toc.classList.remove('active'); };
       tocContainer.appendChild(link);
      });
 
+     // FIX: Non-blocking text highlight capturing handler loop
+     // Targets the share icon button in the panel header of .p3
+     const shareBtn = document.querySelector('.p3 .icon-btn');
+     const previewIframe = document.getElementById('preview-iframe');
+
+     shareBtn.onclick = () => {
+      // Native high-efficiency browser string lookup retrieval API
+      const selectedText = window.getSelection().toString().trim();
+      
+      if (selectedText) {
+       console.log("Highlighted term caught:", selectedText);
+       
+       // Example query structure: Triggers an archive query search inside your active target frame
+       // Change '://example.com' to your specific tool workflow URL pathway
+       previewIframe.src = `https://://example.com${encodeURIComponent(selectedText)}`;
+      } else {
+       alert("Highlight a word or term in the text viewer pane first.");
+      }
+     };
+
+     // Fallback frame handling for iframe focus shifts (closes menus)
+     window.onblur = () => {
+      setTimeout(() => {
+       if (document.activeElement && document.activeElement.tagName === 'IFRAME') {
+        toc.classList.remove('active'); lib.classList.remove('active');
+       }
+      }, 50);
+     };
+
     } catch (err) {
-     console.error("Archive Mount Error:", err);
-     document.getElementById('content-area').innerHTML = `
-      <p style="color:#cb2431;background:#ffeef0;padding:12px;border-radius:6px;border:1px solid #f9c2c9">
-       <strong>Failed to parse file:</strong> ${err.message}<br>
-       <small>Ensure 'giant-book.md' is uploaded directly inside the root repository folder.</small>
-      </p>`;
+     console.error("Initialization Error:", err);
     }
    });
   });
  </script>
-
-
  </body>
-
 </html>
