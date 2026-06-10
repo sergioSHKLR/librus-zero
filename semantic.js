@@ -428,37 +428,138 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // --- 6. AUTO-GENERATED SEMANTIC CHAPTER LINKS ---
-  function buildTableOfContents() {
-    if (!nodes.tocContainer) return;
-    const headings = nodes.content.querySelectorAll('h1, h2, h3');
-    const fragment = document.createDocumentFragment();
+ function buildTableOfContents() {
+  if (!nodes.tocContainer) return;
+  nodes.tocContainer.innerHTML = '';
+  
+  const headings = nodes.content.querySelectorAll('h1, h2, h3, h4');
+  const fragment = document.createDocumentFragment();
+  
+  // Storage stack array tracking structural parent nodes down the line tree
+  let activeContainers = {
+    1: fragment, 
+    2: null,
+    3: null,
+    4: null
+  };
 
-    headings.forEach((heading, idx) => {
-      const slug = heading.textContent.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || `ch-${idx}`;
-      heading.id = slug;
+  headings.forEach((heading, index) => {
+    const slug = heading.textContent.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || `sec-${index}`;
+    heading.id = slug;
+    
+    const level = parseInt(heading.tagName.substring(1));
 
+    // Verify if this item contains sub-items immediately following it
+    const nextHeading = headings[index + 1];
+    const hasChildren = nextHeading && parseInt(nextHeading.tagName.substring(1)) > level;
+
+    if (hasChildren && level < 4) {
+      const details = document.createElement('details');
+      
+      // FIX: Initial State collapse mapping selector boundaries
+      // Keeps H1 chapters open, but collapses H2 and lower sections
+      details.open = (level === 1); 
+
+      const summary = document.createElement('summary');
+      summary.textContent = heading.textContent;
+      summary.dataset.slug = slug; // Anchor data key property link for scroll tracking updates
+
+      summary.onclick = (e) => {
+        if (e.offsetX > 20) { 
+          e.preventDefault();
+          heading.scrollIntoView({ behavior: 'smooth' });
+          if (window.innerWidth < 768) toggleSidebar(nodes.toc, nodes.tocToggle, true);
+        }
+      };
+
+      details.appendChild(summary);
+
+      const parentContainer = activeContainers[level] || fragment;
+      parentContainer.appendChild(details);
+
+      activeContainers[level + 1] = details;
+    } else {
       const link = document.createElement('a');
       link.href = '#' + slug;
       link.textContent = heading.textContent;
-      link.style.display = 'block';
-      link.style.padding = '6px 8px';
-      link.style.fontSize = '14px';
-      link.style.color = 'inherit';
-      link.style.textDecoration = 'none';
-
-      if (heading.tagName === 'H2') link.style.paddingLeft = '16px';
-      if (heading.tagName === 'H3') link.style.paddingLeft = '26px';
+      link.className = 'toc-link-item';
+      link.dataset.slug = slug; // Anchor data key property link for scroll tracking updates
 
       link.onclick = (e) => {
         e.preventDefault();
         heading.scrollIntoView({ behavior: 'smooth' });
-        toggleSidebar(nodes.toc, nodes.tocToggle, true);
+        if (window.innerWidth < 768) toggleSidebar(nodes.toc, nodes.tocToggle, true);
       };
 
-      fragment.appendChild(link);
-    });
+      let targetBox = activeContainers[level] || fragment;
+      targetBox.appendChild(link);
+    }
+  });
 
-    nodes.tocContainer.appendChild(fragment);
-  }
+  nodes.tocContainer.appendChild(fragment);
+
+  // Trigger high-performance scroll tracking intersection observation engine setup
+  initializeActiveScrollObserver(headings);
+}
+
+// --- HIGH-PERFORMANCE DEEP TRACKING WITH H2-H4 AUTO-COLLAPSE ENGINE ---
+function initializeActiveScrollObserver(headings) {
+  if (window.ArchiveScrollObserver) window.ArchiveScrollObserver.disconnect();
+
+  const observerOptions = {
+    root: nodes.content,
+    rootMargin: '0px 0px -70% 0px', // Triggers right at the top 30% viewport band
+    threshold: 0
+  };
+
+  window.ArchiveScrollObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const activeSlug = entry.target.id;
+
+        // 1. Reset old visual highlights
+        nodes.toc.querySelectorAll('.toc-active-item').forEach(el => el.classList.remove('toc-active-item'));
+
+        // 2. Locate the navigation node link matching the active heading
+        const targetNavNode = nodes.toc.querySelector(`[data-slug="${activeSlug}"], a[href="#${activeSlug}"]`);
+        
+        if (targetNavNode) {
+          targetNavNode.classList.add('toc-active-item');
+
+          // --- DEEP LEVEL AUTO-EXPAND & AUTO-COLLAPSE ENGINE ---
+          
+          // Build an array containing the exact path of details elements wrapping our active item
+          const activeAncestryChain = [];
+          let currentParent = targetNavNode.parentElement;
+          
+          while (currentParent && currentParent !== nodes.tocContainer) {
+            if (currentParent.tagName === 'DETAILS') {
+              activeAncestryChain.push(currentParent);
+            }
+            currentParent = currentParent.parentElement;
+          }
+
+          // Gather every single details node wrapper everywhere inside the sidebar tree
+          const allSidebarDetails = nodes.tocContainer.querySelectorAll('details');
+
+          allSidebarDetails.forEach(detailsBox => {
+            if (activeAncestryChain.includes(detailsBox)) {
+              // If the details box is a parent or ancestor of our active line, force it open
+              detailsBox.open = true;
+            } else {
+              // FIX: If it is an H2, H3, or H1 sibling folder outside our current position, collapse it instantly
+              detailsBox.open = false;
+            }
+          });
+
+          // 3. Keep the sidebar viewport centered on the active navigation item
+          targetNavNode.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }
+    });
+  }, observerOptions);
+
+  headings.forEach(heading => window.ArchiveScrollObserver.observe(heading));
+}
+
 });

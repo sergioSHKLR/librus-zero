@@ -507,3 +507,159 @@ iframe {
   display: none !important;
  }
 }
+
+/* --- SCROLLABLE & COLLAPSIBLE TOC OVERLAY RULES --- */
+
+/* Fix: Make the inner links container independently scrollable */
+#toc-links-container {
+ flex: 1;
+ overflow-y: auto;
+ padding-right: 4px;
+ margin-top: 10px;
+}
+
+/* Custom Webkit scrollbar tuning for a cleaner sidebar look */
+#toc-links-container::-webkit-scrollbar {
+ width: 5px;
+}
+
+#toc-links-container::-webkit-scrollbar-thumb {
+ background: var(--border-light);
+ border-radius: 4px;
+}
+
+/* --- SCROLL SYSTEM FIX FOR LEFT SIDEBAR --- */
+.toc-sidebar {
+ position: absolute;
+ top: 0;
+ height: 100%;
+ background: var(--bg-panel);
+ transition: transform .22s cubic-bezier(0, 0, 0.2, 1);
+ will-change: transform;
+ content-visibility: hidden;
+ z-index: 100;
+ width: 280px;
+ border: 1px solid var(--border-light);
+ display: flex;
+ /* Lock view to flexible block dimensions */
+ flex-direction: column;
+}
+
+.toc-sidebar .sidebar-nav {
+ padding: 16px;
+ display: flex;
+ flex-direction: column;
+ height: 100%;
+ /* Occupy full height of the drawer container */
+ overflow: hidden;
+ /* Prevent container from tearing the page layout */
+}
+
+/* The actual scroll viewport container */
+#toc-links-container {
+ flex: 1;
+ overflow-y: auto;
+ /* Forces local standard native scrollbars */
+ overflow-x: hidden;
+ padding-right: 6px;
+ margin-top: 12px;
+
+ /* Performance optimizations for 20K line documents scrolling frames */
+ will-change: scroll-position;
+ -webkit-overflow-scrolling: touch;
+}
+
+/* Custom minimal scrollbar style */
+#toc-links-container::-webkit-scrollbar {
+ width: 4px;
+}
+
+#toc-links-container::-webkit-scrollbar-thumb {
+ background: var(--border-light);
+ border-radius: 4px;
+}
+
+/* --- COLLAPSIBLE DETAILS HIERARCHY --- */
+#toc-links-container details {
+ width: 100%;
+ margin-bottom: 2px;
+}
+
+#toc-links-container summary {
+ list-style: none;
+ cursor: pointer;
+ padding: 5px 6px;
+ border-radius: 4px;
+ display: flex;
+ align-items: center;
+ font-size: 14px;
+ color: var(--text-primary);
+ user-select: none;
+}
+
+#toc-links-container summary::-webkit-details-marker {
+ display: none;
+}
+
+#toc-links-container summary:hover {
+ background-color: var(--bg-main);
+ color: var(--accent-link);
+}
+
+/* Unified indent layouts inside collapsed trees */
+#toc-links-container details details {
+ margin-left: 14px;
+}
+
+/* Indent trailing plain links (like h4) inside details containers */
+#toc-links-container a.toc-link-item {
+ display: block;
+ padding: 4px 6px;
+ margin-left: 14px;
+ color: var(--text-primary);
+ text-decoration: none;
+ font-size: 13px;
+ border-radius: 4px;
+}
+
+#toc-links-container a.toc-link-item:hover {
+ background-color: var(--bg-main);
+ color: var(--accent-link);
+}
+
+/* Rotating navigation arrow markers */
+#toc-links-container summary::before {
+ content: "▸";
+ display: inline-block;
+ width: 12px;
+ margin-right: 4px;
+ transition: transform 0.1s ease;
+ color: var(--text-muted);
+}
+
+#toc-links-container details[open]>summary::before {
+ transform: rotate(90deg);
+}
+
+/* --- ACTIVE CONTAINER INTERSECTION TRACKING HIGHLIGHTS --- */
+
+/* Highlight applied to the currently active navigation item */
+#toc-links-container .toc-active-item {
+ color: var(--accent-link) !important;
+ font-weight: 700;
+ background-color: var(--bg-main);
+ box-shadow: inset 3px 0 0 var(--accent-link);
+}
+
+/* Ensure a summary block tag marked as active receives the tracking accent */
+#toc-links-container summary.toc-active-item {
+ box-shadow: inset 3px 0 0 var(--accent-link);
+ padding-left: 10px;
+}
+
+/* Initial state configuration layout parameters for h2 sub-details */
+#toc-links-container details details {
+ margin-left: 12px;
+ border-left: 1px solid var(--border-light);
+ padding-left: 6px;
+}
