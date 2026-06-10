@@ -191,9 +191,6 @@ document.addEventListener('DOMContentLoaded', () => {
         activeSearchProvider = providerKey;
         const selectionText = getSelectionText();
         if (selectionText && isSelectionInContent()) {
-          // Highlight the selected text in the main panel
-          highlightPanelSearch(selectionText);
-          // Also search in the context iframe
           updateContextFrame(selectionText);
         }
       };
