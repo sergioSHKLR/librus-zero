@@ -663,3 +663,104 @@ iframe {
  border-left: 1px solid var(--border-light);
  padding-left: 6px;
 }
+
+/* --- 3-TIER DYNAMIC DENSITY TEXT MATRIX OVERRIDES --- */
+
+/* Reset native margins slightly to make line height spacing feel natural */
+.panel-body p {
+ margin-top: 0;
+ margin-bottom: 1.2em;
+ transition: line-height 0.15s ease, margin-bottom 0.15s ease;
+}
+
+/* Compact Tier: Best for dense data scans or code text overviews */
+body[data-density="compact"] .panel-body {
+ --lh-reading: 1.35;
+}
+
+body[data-density="compact"] .panel-body p {
+ margin-bottom: 0.8em;
+}
+
+/* Normal Tier: Standard elegant book layout ratio */
+body[data-density="normal"] .panel-body {
+ --lh-reading: 1.65;
+}
+
+body[data-density="normal"] .panel-body p {
+ margin-bottom: 1.2em;
+}
+
+/* Loose Tier: Distraction-free, relaxed long-form presentation reading */
+body[data-density="loose"] .panel-body {
+ --lh-reading: 2.1;
+}
+
+body[data-density="loose"] .panel-body p {
+ margin-bottom: 1.6em;
+}
+
+/* --- TOC LIVE FILTER TRANSITIONS --- */
+
+/* Smoothly hide items that do not match the live search string */
+#toc-links-container .search-hidden {
+ display: none !important;
+}
+
+/* Subtle visual guide lines for exposed matching sub-items */
+#toc-links-container details[open] {
+ margin-bottom: 6px;
+ transition: all 0.2s ease;
+}
+
+/* --- IFRAME SPINNING LOADER OVERLAY SYSTEM --- */
+
+/* The parent panel body layout must use relative coordinates to lock the child overlay bounds */
+.context-panel .panel-body {
+ position: relative;
+ background-color: #fff;
+}
+
+/* Spinner Backdrop Shield Layout */
+.iframe-loading-overlay {
+ position: absolute;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ background-color: var(--bg-main);
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ z-index: 10;
+ opacity: 0;
+ pointer-events: none;
+ transition: opacity 0.2s ease;
+}
+
+/* Toggle Class applied by JavaScript */
+.iframe-loading-overlay.active {
+ opacity: 1;
+ pointer-events: auto;
+}
+
+/* Modern Clean CSS Spinner Ring */
+.loading-spinner-ring {
+ width: 36px;
+ height: 36px;
+ border: 3.5px solid var(--border-light);
+ border-top-color: var(--accent-link);
+ border-radius: 50%;
+ animation: iframeSpinnerSpin 0.75s linear infinite;
+}
+
+/* Hardware Accelerated Rotation Frames Matrix */
+@keyframes iframeSpinnerSpin {
+ 0% {
+  transform: rotate(0deg);
+ }
+
+ 100% {
+  transform: rotate(360deg);
+ }
+}

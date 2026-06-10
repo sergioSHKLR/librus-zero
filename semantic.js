@@ -562,4 +562,229 @@ function initializeActiveScrollObserver(headings) {
   headings.forEach(heading => window.ArchiveScrollObserver.observe(heading));
 }
 
+// --- MODULE: DYNAMIC 3-TIER LINE HEIGHT SPACING ENGINE ---
+
+(function() {
+  const densityBtn = document.getElementById('btn-density');
+  if (!densityBtn) return;
+
+  // Define our available spacing tiers sequentially
+  const densityTiers = ['compact', 'normal', 'loose'];
+  
+  // Restore user selection from disk cache on boot, default to 'normal' (index 1)
+  const cachedDensity = localStorage.getItem('archive_user_density') || 'normal';
+  let activeTierIndex = densityTiers.indexOf(cachedDensity);
+  if (activeTierIndex === -1) activeTierIndex = 1; // Fallback safety catch
+
+  // Set the initial dataset attribute on the body tag immediately on load
+  document.body.setAttribute('data-density', densityTiers[activeTierIndex]);
+
+  densityBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    // Increment current index position and cycle back around using modulo math
+    activeTierIndex = (activeTierIndex + 1) % densityTiers.length;
+    const targetDensity = densityTiers[activeTierIndex];
+
+    // Force updates asynchronously outside standard layout animation frame paints
+    requestAnimationFrame(() => {
+      document.body.setAttribute('data-density', targetDensity);
+      localStorage.setItem('archive_user_density', targetDensity);
+      
+      console.log(`Workspace display density shifted to: ${targetDensity}`);
+    });
+  });
+})();
+
+// --- MODULE: TOC AUTO-EXPANDING LIVE SEARCH FILTER ---
+
+(function() {
+  const tocInput = document.getElementById('toc-filter');
+  const tocLinksBox = document.getElementById('toc-links-container');
+  
+  if (!tocInput || !tocLinksBox) return;
+
+  tocInput.addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase().trim();
+
+    // Use requestAnimationFrame to decouple heavy filtering from the typing thread
+    requestAnimationFrame(() => {
+      
+      // Scenario A: Input field is completely cleared out
+      if (query === '') {
+        // Reset everything back to visible states
+        tocLinksBox.querySelectorAll('.search-hidden').forEach(el => el.classList.remove('search-hidden'));
+        
+        // Return folders to their natural scroll-observer states (H1 open, rest collapsed)
+        const allDetails = tocLinksBox.querySelectorAll('details');
+        allDetails.forEach(box => {
+          // Check if it's a top-level H1 by checking if its parent is the root container
+          const isTopLevelH1 = box.parentElement === tocLinksBox;
+          box.open = isTopLevelH1;
+        });
+        return;
+      }
+
+      // Scenario B: User is actively typing a query string
+      
+      // 1. Process all terminal anchor links (<A>) first
+      const allLinks = tocLinksBox.querySelectorAll('a.toc-link-item');
+      allLinks.forEach(link => {
+        const text = link.textContent.toLowerCase();
+        if (text.includes(query)) {
+          link.classList.remove('search-hidden');
+        } else {
+          link.classList.add('search-hidden');
+        }
+      });
+
+      // 2. Deep-traverse <details> blocks from bottom to top to handle visibility hierarchies
+      // Grabbing them all and reversing ensures we check inner child details folders before outer parents
+      const allDetails = Array.from(tocLinksBox.querySelectorAll('details')).reverse();
+
+      allDetails.forEach(detailsBox => {
+        const summary = detailsBox.querySelector('summary');
+        const summaryText = summary ? summary.textContent.toLowerCase() : '';
+        
+        // Check if the summary header text itself matches the search query string
+        const summaryMatches = summaryText.includes(query);
+
+        // Check if this folder contains any child items that are currently visible/not hidden
+        const hasVisibleChildren = Array.from(detailsBox.children).some(child => {
+          // Skip checking the summary element itself
+          if (child.tagName === 'SUMMARY') return false;
+          
+          // If a child is an open/visible link or an open/visible nested details block, it counts
+          return !child.classList.contains('search-hidden');
+        });
+
+        if (summaryMatches || hasVisibleChildren) {
+          // Expose the folder structure if a match is found inside or on its title
+          detailsBox.classList.remove('search-hidden');
+          
+          // If a child matched deeply inside, force the parent folder open instantly
+          if (hasVisibleChildren) {
+            detailsBox.open = true;
+          }
+        } else {
+          // Hide the folder completely if no matches are found inside it
+          detailsBox.classList.add('search-hidden');
+          detailsBox.open = false;
+        }
+      });
+    });
+  });
+})();
+
+// --- MODULE: INTERACTIVE SELECTION RADAR FOR RESEARCH PROVIDERS ---
+
+(function() {
+  // Map your custom panel icon tabs to their respective base lookup URLs
+  const tabs = {
+    'ctx-public': 'https://wikipedia.org',
+    'ctx-dictionary': 'https://infopedia.pt',
+    'ctx-map': 'https://google.com'
+  };
+
+  const contextIframe = document.getElementById('context');
+  const contextPanel = document.getElementById('context-panel');
+
+  Object.entries(tabs).forEach(([buttonId, baseUrl]) => {
+    const btn = document.getElementById(buttonId);
+    if (!btn) return;
+
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      
+      // Extract what the user is currently highlighting on screen
+      const activeSelection = window.getSelection().toString().trim();
+
+      // IF NOTHING IS SELECTED: Intercept the thread execution loop instantly
+      if (activeSelection === '') {
+        alert("Nenhum texto selecionado! Por favor, selecione uma palavra ou frase no texto para realizar a busca.");
+        return; 
+      }
+
+      // IF SELECTION IS VALID: Execute the iframe updates in parallel
+      requestAnimationFrame(() => {
+        // Automatically ensure the split-screen panel wrapper layout is visible
+        if (contextPanel && window.getComputedStyle(contextPanel).display === 'none') {
+          contextPanel.style.display = 'flex';
+        }
+
+        // Format and rewrite search parameters safely
+        let targetQuery = encodeURIComponent(activeSelection);
+        if (baseUrl.includes('infopedia.pt')) {
+          targetQuery = targetQuery.toLowerCase();
+        }
+
+        if (contextIframe) {
+          contextIframe.src = baseUrl + targetQuery;
+          console.log(`Research Panel updated: Target lookup route -> ${baseUrl + targetQuery}`);
+        }
+      });
+    });
+  });
+})();
+
+// --- MODULE: DYNAMIC LOADING INDICATION MATRIX FOR RESEARCH SIDEBAR ---
+
+(function() {
+  const tabs = {
+    'ctx-public': 'https://wikipedia.org',
+    'ctx-dictionary': 'https://infopedia.pt',
+    'ctx-map': 'https://google.com'
+  };
+
+  const contextIframe = document.getElementById('context');
+  const contextPanel = document.getElementById('context-panel');
+  const loaderOverlay = document.getElementById('iframe-loader');
+
+  if (!contextIframe || !loaderOverlay) return;
+
+  // --- COMPONENT A: AUTOMATIC LOADING STATE REMOVAL ---
+  // Listens directly to the browser frame engine channel
+  contextIframe.addEventListener('load', () => {
+    requestAnimationFrame(() => {
+      loaderOverlay.classList.remove('active');
+      console.log("Iframe load lifecycle finalized. Hiding spinner overlay.");
+    });
+  });
+
+  // --- COMPONENT B: ACTION REGISTER LOOPS ---
+  Object.entries(tabs).forEach(([buttonId, baseUrl]) => {
+    const btn = document.getElementById(buttonId);
+    if (!btn) return;
+
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      
+      const activeSelection = window.getSelection().toString().trim();
+
+      if (activeSelection === '') {
+        alert("Nenhum texto selecionado! Por favor, selecione uma palavra ou frase no texto para realizar a busca.");
+        return; 
+      }
+
+      requestAnimationFrame(() => {
+        // 1. Instantly fire the visual spinner shield layout on your screen
+        loaderOverlay.classList.add('active');
+
+        if (contextPanel && window.getComputedStyle(contextPanel).display === 'none') {
+          contextPanel.style.display = 'flex';
+        }
+
+        let targetQuery = encodeURIComponent(activeSelection);
+        if (baseUrl.includes('infopedia.pt')) {
+          targetQuery = targetQuery.toLowerCase();
+        }
+
+        // 2. Pivot the frame source pointer channel location
+        contextIframe.src = baseUrl + targetQuery;
+      });
+    });
+  });
+})();
+
+
 });

@@ -73,6 +73,7 @@
        height="24"></button>
     </div>
     <!-- content-visibility stabilizes CLS during heavy file injection parses -->
+
     <div id="content-area" class="panel-body" style="content-visibility: auto; contain-intrinsic-size: auto 1000px;">
      <article>
       <h1>Immortal Archive</h1>
@@ -108,7 +109,12 @@
      <button id="ctx-share" aria-label="share" title="share"><img src="./icons/share.svg" alt="" width="24"
        height="24"></button>
     </div>
+
     <div class="panel-body" style="padding:0; position: relative;">
+     <!-- Injected Loading Overlay Layer -->
+     <div id="iframe-loader" class="iframe-loading-overlay">
+      <div class="loading-spinner-ring"></div>
+     </div>
      <!-- loading=lazy prevents blocking early page loads -->
      <div id="ctx-blur-shade" class="ctx-blur-shade" aria-hidden="true"></div>
      <iframe id="context" src="https://wikipedia.org" title="Research Reference Frame Viewport" loading="lazy"></iframe>
