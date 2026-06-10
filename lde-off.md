@@ -51,7 +51,7 @@ Clique nos itens para navegar ou use `Ctrl + F` (ou ⌘ + F) para busca rápida 
 ### 0.03. 📄 Prefácio {#0-03}
 
 ::: center
-![Cepa Espírita](/assets/images/vine.png)
+![Cepa Espírita](/images/vine.png)
 Interpretação artística do desenho original (mediúnico).
 :::
 
