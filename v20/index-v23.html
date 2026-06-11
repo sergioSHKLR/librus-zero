@@ -3,15 +3,15 @@
 
  <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="description" content="Librus Workspace v.22: High-performance, zero-build text processing engine.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Librus Workspace v.23: High-performance, zero-build text processing engine.">
   <meta name="theme-color" content="#ffffff">
-  <title>librus v.22</title>
-
+  <title>librus v.23</title>
   <style>
    /* =========================================================================
-   1. CRITICAL WIREFRAME CSS CORE (Kept Inline for Instant First Paint)
+   IMMORTAL ARCHIVE STYLE MATRIX v23
    ========================================================================= */
+
    :root {
     --bg-main: #ffffff;
     --bg-panel: #f8f9fa;
@@ -24,7 +24,12 @@
     --control-bg: #ffffff;
     --control-border: 1px solid var(--border-light);
     --icon-filter: none;
+    --backdrop-shade: rgba(0, 0, 0, 0.25);
+
+    /* IMMUTABLE UI TYPOGRAPHY BASE */
     --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+    /* DYNAMIC READING TYPOGRAPHY LAYER */
     --font-reading: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     --size-reading: 1rem;
     --lh-reading: 1.6;
@@ -41,6 +46,7 @@
     --control-border: 1px solid #383838;
     --accent-link: #52a5ff;
     --icon-filter: invert(0.92) brightness(1.1);
+    --backdrop-shade: rgba(0, 0, 0, 0.45);
    }
 
    * {
@@ -68,125 +74,8 @@
     border-bottom: 1px solid var(--border-light);
     gap: 8px;
     z-index: 100;
-    flex-shrink: 0;
    }
 
-   .main-workspace {
-    display: flex;
-    flex: 1;
-    position: relative;
-    overflow: hidden;
-    height: calc(100vh - 50px);
-    width: 100vw;
-   }
-
-   .main-panel {
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    border-right: 1px solid var(--border-light);
-    overflow: hidden;
-    transition: width 0.15s ease;
-   }
-
-   .research-drawer {
-    width: 50%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    background: var(--bg-panel);
-    overflow: hidden;
-    transition: width 0.15s ease;
-    position: relative;
-   }
-
-   /* =========================================================================
-   2. ORIENTATION INTERLOCK INTERFACE (Locks UI Panels Under Portrait Viewports)
-   ========================================================================= */
-   #orientation-guard {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: var(--bg-panel);
-    z-index: 9999;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 32px;
-    color: var(--text-primary);
-   }
-
-   .phone-icon-animation {
-    width: 60px;
-    height: 60px;
-    margin-bottom: 20px;
-    border: 4px solid var(--text-primary);
-    border-radius: 10px;
-    position: relative;
-    animation: rotateDevice 2.4s ease-in-out infinite;
-   }
-
-   .phone-icon-animation::after {
-    content: '';
-    position: absolute;
-    bottom: 4px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 6px;
-    height: 6px;
-    background: var(--text-primary);
-    border-radius: 50%;
-   }
-
-   @keyframes rotateDevice {
-
-    0%,
-    100% {
-     transform: rotate(0deg);
-    }
-
-    30%,
-    70% {
-     transform: rotate(-90deg);
-    }
-   }
-
-   #orientation-guard h2 {
-    margin: 0 0 8px 0;
-    font-size: 1.3rem;
-   }
-
-   #orientation-guard p {
-    margin: 0;
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    max-width: 260px;
-    line-height: 1.4;
-   }
-
-   @media (max-width: 900px) and (orientation: portrait) {
-    #orientation-guard {
-     display: flex;
-    }
-
-    .research-drawer {
-     display: none !important;
-    }
-
-    .main-panel {
-     width: 100% !important;
-     border-right: none !important;
-    }
-   }
-
-   /* =========================================================================
-   3. DESIGN PRODUCTION DECORATION STYLES (To be decoupled later)
-   ========================================================================= */
    button {
     width: var(--control-size);
     height: var(--control-size);
@@ -198,15 +87,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
    }
 
-   button:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-   }
-
-   button>img {
+   button>img,
+   .panel-header button>img {
     filter: var(--icon-filter);
    }
 
@@ -219,23 +103,148 @@
     color: var(--text-muted);
    }
 
+   .main-workspace {
+    display: flex;
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    height: calc(100vh - 50px);
+    width: 100vw;
+    background: var(--bg-main);
+   }
+
+   .main-panel {
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-right: 1px solid var(--border-light);
+    overflow: hidden;
+    will-change: transform, width;
+    transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1), width 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
+   }
+
+   .research-drawer {
+    width: 50vw;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-panel);
+    overflow: hidden;
+    will-change: width;
+    transition: width 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
+   }
+
+   /* EXPAND OVERRIDE STATES */
+   .main-workspace.drawer-expand .main-panel {
+    width: 50vw !important;
+    transform: translateX(-100%);
+    border-right: none !important;
+   }
+
+   .main-workspace.drawer-expand .research-drawer {
+    width: 100vw !important;
+    margin-left: -50vw;
+    transition: width 0.15s cubic-bezier(0.2, 0.8, 0.2, 1), margin-left 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
+   }
+
+   .overlay-sidebar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 300px;
+    height: 100%;
+    background: var(--bg-panel);
+    border-right: 1px solid var(--border-light);
+    transform: translateX(-100%);
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 150;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 4px 0 16px rgba(0, 0, 0, 0.15);
+   }
+
+   /* CORE CONFIGURATION: Library Shelf opening parameters */
+   #library-sidebar {
+    width: calc(100vw - 460px);
+    min-width: 320px;
+   }
+
+   #settings-sidebar {
+    top: 104px;
+    height: calc(100vh - 104px);
+    left: auto;
+    right: 0;
+    border-right: none;
+    border-left: 1px solid var(--border-light);
+    transform: translateX(100%);
+    box-shadow: -4px 0 16px rgba(0, 0, 0, 0.15);
+    z-index: 160;
+   }
+
+   /* SUBTLE SIDEBAR BACKDROP OVERLAY SHIELD */
+   #sidebar-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 140;
+    display: none;
+    background: var(--backdrop-shade);
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+   }
+
+   #sidebar-backdrop.active {
+    display: block !important;
+    opacity: 1 !important;
+   }
+
+   .typo-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--bg-panel);
+    border: 1px solid var(--border-light);
+    border-radius: var(--control-radius);
+    padding: 6px;
+    gap: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 250;
+   }
+
+   .typo-dropdown-menu.active {
+    display: flex !important;
+    flex-direction: row !important;
+   }
+
+   .overlay-sidebar.active {
+    transform: translateX(0) !important;
+    display: flex !important;
+   }
+
    .panel-header {
     display: flex;
     align-items: center;
-    padding: 0 16px;
+    padding: 8px 16px;
     background: var(--bg-panel);
     border-bottom: 1px solid var(--border-light);
-    gap: 6px;
+    gap: 8px;
     flex-shrink: 0;
     height: 54px;
    }
 
    .panel-body {
     flex: 1;
-    padding: 24px 16px;
+    padding: 32px 24px;
     overflow-y: auto;
     background: var(--bg-main);
-    -webkit-overflow-scrolling: touch;
+    color: var(--text-primary);
    }
 
    .panel-body article {
@@ -252,82 +261,41 @@
     height: 100%;
     border: none;
     background: transparent;
-   }
-
-   .overlay-sidebar {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: min(340px, 85vw);
-    height: 100%;
-    background: var(--bg-panel);
-    border-right: 1px solid var(--border-light);
-    transform: translateX(-100%);
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 150;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 4px 0 16px rgba(0, 0, 0, 0.15);
-   }
-
-   #settings-sidebar {
-    left: auto;
-    right: 0;
-    border-right: none;
-    border-left: 1px solid var(--border-light);
-    transform: translateX(100%);
-   }
-
-   .overlay-sidebar.active {
-    transform: translateX(0) !important;
-   }
-
-   .typo-dropdown-menu {
-    display: none;
-    position: absolute;
-    top: calc(100% + 6px);
-    right: 0;
-    background-color: var(--bg-panel);
-    border: 1px solid var(--border-light);
-    border-radius: var(--control-radius);
-    padding: 6px;
-    gap: 6px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    z-index: 250;
-   }
-
-   .typo-dropdown-menu.active {
-    display: flex !important;
-    flex-direction: row !important;
+    flex: 1;
    }
 
    .input-with-clear {
     position: relative;
     display: flex;
     align-items: center;
-    flex: 1;
+    width: 220px;
+    flex-shrink: 0;
    }
 
    .input-with-clear input {
     width: 100%;
-    padding: 8px;
+    padding: 8px 12px;
     border-radius: var(--control-radius);
     border: var(--control-border);
     background: var(--control-bg);
     color: var(--text-primary);
+    font-size: 0.85rem;
+    font-family: var(--font-ui);
    }
 
    .divider {
     width: 1px;
     height: 24px;
     background: var(--border-light);
-    margin: 0 2px;
+    margin: 0 4px;
+    flex-shrink: 0;
    }
 
    .search-count {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     color: var(--text-muted);
+    min-width: 52px;
+    text-align: center;
     font-family: monospace;
    }
 
@@ -354,7 +322,7 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    height: calc(100% - 54px);
+    height: 100%;
     overflow-y: auto;
    }
 
@@ -385,7 +353,7 @@
 
    .ctx-blur-shade {
     position: absolute;
-    top: 0;
+    top: 0px;
     left: 0;
     right: 0;
     bottom: 0;
@@ -400,21 +368,22 @@
     z-index: 10;
    }
 
+   [data-theme="dark"] .ctx-blur-shade {
+    background: rgba(20, 20, 20, 0.88);
+   }
+
    .ctx-blur-shade.active {
     opacity: 1;
     pointer-events: auto;
    }
 
-   [data-theme="dark"] .ctx-blur-shade {
-    background: rgba(20, 20, 20, 0.88);
-   }
-
    .shade-message {
+    font-weight: 600;
     background: var(--control-bg);
     border: var(--control-border);
     padding: 12px 20px;
     border-radius: 8px;
-    font-weight: 600;
+    color: var(--text-primary);
    }
 
    .iframe-loading-overlay {
@@ -500,10 +469,22 @@
     font-size: 0.85rem;
    }
 
+   #toc-filter,
+   #panel-filter,
+   #library-filter {
+    height: 38px;
+    border-radius: 6px;
+    border: 1px solid var(--border-light);
+    background: var(--control-bg);
+    color: var(--text-primary);
+    padding: 8px 12px;
+    width: 100%;
+   }
+
    .library-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 16px;
    }
 
    .paperback-card {
@@ -511,158 +492,256 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 10px;
+    padding: 12px;
     border: 1px solid var(--border-light);
     border-radius: var(--control-radius);
     background: var(--control-bg);
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s;
    }
 
    .paperback-card:hover {
     transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
    }
 
    .paperback-card img {
     width: 100%;
-    max-width: 60px;
+    max-width: 80px;
     height: auto;
     border-radius: 2px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
    }
 
-   /* Expanded State Rules */
-   .main-workspace.drawer-expand .main-panel {
-    display: none !important;
+   button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
    }
 
-   .main-workspace.drawer-expand .research-drawer {
-    width: 100% !important;
+   /* =========================================================================
+   ORIENTATION SHIELD COMPONENT (PORTRAIT INDUCTION MATRIX)
+   ========================================================================= */
+   #orientation-shield {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #111111;
+    color: #ffffff;
+    z-index: 9999;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+   }
+
+   @media (orientation: portrait) {
+    #orientation-shield {
+     display: flex;
+    }
+   }
+
+   .device-silhouette {
+    width: 70px;
+    height: 130px;
+    border: 3px solid #ffffff;
+    border-radius: 12px;
+    position: relative;
+    margin-bottom: 24px;
+    animation: rotateDeviceClockwise 2.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+   }
+
+   /* Camera Hole Pinhole at Top */
+   .device-silhouette::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: #ffffff;
+    border-radius: 50%;
+   }
+
+   /* Smooth Continuous Clockwise Rotation Formula */
+   @keyframes rotateDeviceClockwise {
+    0% {
+     transform: rotate(0deg);
+    }
+
+    30% {
+     transform: rotate(0deg);
+    }
+
+    70% {
+     transform: rotate(90deg);
+    }
+
+    100% {
+     transform: rotate(90deg);
+    }
+   }
+
+   .shield-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    letter-spacing: 0.5px;
+   }
+
+   .shield-sub {
+    font-size: 0.9rem;
+    color: #aaaaaa;
+    max-width: 280px;
+    line-height: 1.4;
+    margin: 0;
    }
   </style>
  </head>
 
  <body data-theme="light" data-density="normal" data-justify="false">
 
-  <div id="orientation-guard" aria-hidden="true">
-   <div class="phone-icon-animation"></div>
-   <h2>Melhor em Paisagem</h2>
-   <p>Por favor, mude a orientação do seu dispositivo para usar o painel de pesquisa dividida e ferramentas.</p>
+  <div id="orientation-shield" role="alert" aria-live="assertive">
+   <div class="device-silhouette"></div>
+   <p class="shield-title">Landscape Mode Required</p>
+   <p class="shield-sub">Please rotate your device horizontally to view the reference multi-panel workspace correctly.
+   </p>
   </div>
 
   <header class="top-bar">
    <button id="toc-open" title="Table of Contents"><img src="icons/toc.svg" alt="TOC"></button>
    <button id="library-open" title="Library Shell"><img src="icons/library_books.svg" alt="Library"></button>
-   <div class="brand">librus v22</div>
+   <div class="brand">librus v23</div>
    <button id="theme-toggle" title="Toggle Theme Matrix"><img src="icons/dark_mode.svg" alt="Theme"></button>
   </header>
 
   <div class="main-workspace">
-   <div id="sidebar-backdrop"
-    style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 140; display: none; background: rgba(0,0,0,0.25);">
-   </div>
+   <div id="sidebar-backdrop"></div>
 
    <main class="main-panel" role="main">
     <div class="panel-header">
      <div class="input-with-clear">
-      <input type="text" id="panel-filter" placeholder="Procurar no texto..." autocomplete="off">
+      <input type="text" id="panel-filter" placeholder="Search text body..." autocomplete="off">
      </div>
      <div id="search-count" class="search-count">0 / 0</div>
 
-     <button id="btn-search-prev" title="Resultado Anterior"><img src="icons/keyboard_arrow_up.svg" alt="Prev"></button>
-     <button id="btn-search-next" title="Próximo Resultado"><img src="icons/keyboard_arrow_down.svg"
-       alt="Next"></button>
+     <button id="btn-search-prev" title="Previous Occurrence"><img src="icons/keyboard_arrow_up.svg" alt="Up"></button>
+     <button id="btn-search-next" title="Next Occurrence"><img src="icons/keyboard_arrow_down.svg" alt="Down"></button>
      <div class="divider"></div>
 
      <div class="typo-menu-wrapper" style="position: relative; display: inline-block;">
-      <button id="btn-typo-toggle" title="Formatting Menu" style="font-weight: bold;">Aa</button>
+      <button class="icon-btn" id="btn-typo-toggle" title="Typography Layer Options"
+       style="font-weight: bold; font-size: 0.95rem;">Aa</button>
       <div class="typo-dropdown-menu" id="typo-dropdown-container">
-       <button id="btn-density" title="Line Spacing"><img src="icons/density_medium.svg" alt="Density"></button>
-       <button id="btn-justify" title="Toggle Justify"><img src="icons/format_align_justify.svg" alt="Justify"></button>
-       <button id="btn-font-family" title="Change Font"><img src="icons/font_download.svg" alt="Font"></button>
-       <button id="btn-font-inc">A+</button>
-       <button id="btn-font-dec">A-</button>
+       <button class="icon-btn" id="btn-font-family" title="Cycle Font Matrix"><img src="icons/slab_serif.svg"
+         alt="Font"></button>
+       <button class="icon-btn" id="btn-font-inc" title="Increase Font Size"><img src="icons/text_increase.svg"
+         alt="Scale Up"></button>
+       <button class="icon-btn" id="btn-font-dec" title="Decrease Font Size"><img src="icons/text_decrease.svg"
+         alt="Scale Down"></button>
+       <button class="icon-btn" id="btn-density" title="Toggle Line Density"><img src="icons/format_line_spacing.svg"
+         alt="Density"></button>
+       <button class="icon-btn" id="btn-justify" title="Toggle Text Alignment"><img src="icons/format_align_justify.svg"
+         alt="Justify"></button>
       </div>
      </div>
     </div>
 
     <div class="panel-body" id="content-area">
-     <article>
-     </article>
+     <article></article>
     </div>
    </main>
 
-   <aside id="context-panel" class="research-drawer" role="complementary" aria-label="Reference Panel">
+   <aside id="context-panel" class="research-drawer" role="complementary" aria-label="Reference Integration Panel">
     <div class="panel-header">
-     <button id="ctx-encyclopaedia" title="Pesquisar Enciclopédia"><img src="icons/globe.svg" alt="Wiki"></button>
-     <button id="ctx-dictionary" title="Pesquisar Dicionário"><img src="icons/dictionary.svg" alt="Dict"></button>
-     <button id="ctx-map" title="Pesquisar Mapa" disabled><img src="icons/map.svg" alt="Map"></button>
+     <button id="ctx-encyclopaedia" title="Query Encyclopedia Source"><img src="icons/globe.svg" alt="Global"></button>
+     <button id="ctx-dictionary" title="Query Lexicon Dictionary"><img src="icons/dictionary.svg"
+       alt="Lexicon"></button>
+     <button disabled id="ctx-map" title="Query Cartographic Coordinates"><img src="icons/map.svg" alt="Map"></button>
      <div class="divider"></div>
-     <button id="ctx-toggle" title="Blur Filter Overlay"><img src="icons/blur_on.svg" alt="Blur"></button>
-     <button id="ctx-expand" title="Expand Viewport Panel"><img src="icons/arrows_outward.svg" alt="Expand"></button>
-     <button id="btn-share" title="Share Content Selection"><img src="icons/share.svg" alt="Share"></button>
+     <button id="ctx-toggle" title="Toggle Focus Antidistraction Shade"><img src="icons/blur_on.svg"
+       alt="Shade"></button>
+     <button id="ctx-expand" title="Maximize Viewport Plane"><img src="icons/arrows_outward.svg" alt="Expand"></button>
+     <button id="btn-share" title="Share Selected Passage"><img src="icons/share.svg" alt="Share"></button>
      <div class="divider"></div>
-     <button id="settings-open" title="Engine Settings Configuration"><img src="icons/settings.svg"
+     <button id="settings-open" title="System Engine Configurations"><img src="icons/settings.svg"
        alt="Settings"></button>
     </div>
-    <div style="position: relative; flex: 1; width: 100%; height: 100%;">
+    <div class="research-frame-container" style="position: relative; flex: 1; width: 100%; height: 100%;">
      <div id="iframe-loader" class="iframe-loading-overlay">
       <div class="loading-spinner-ring"></div>
      </div>
      <div id="ctx-blur-shade" class="ctx-blur-shade">
-      <p class="shade-message">Filtro Antidistração Ativo</p>
+      <p class="shade-message">Focus Antidistraction Shield Active</p>
      </div>
-     <iframe id="context" src="about:blank" loading="lazy"></iframe>
+     <iframe id="context" src="about:blank" title="Reference Frame Workspace" loading="lazy"></iframe>
     </div>
    </aside>
 
-   <aside id="toc-sidebar" class="overlay-sidebar">
+   <aside id="toc-sidebar" class="overlay-sidebar" aria-label="Table of Contents Drawer">
     <div class="panel-header">
-     <h3>Sumário</h3>
+     <h3>Table of Contents</h3>
     </div>
     <div class="sidebar-nav">
-     <input type="text" id="toc-filter" placeholder="Filtrar capítulos...">
-     <div id="toc-links-container">Nenhum índice disponível</div>
+     <input type="text" id="toc-filter" placeholder="Filter structural entries...">
+     <div id="toc-links-container"></div>
     </div>
    </aside>
 
-   <aside id="library-sidebar" class="overlay-sidebar">
+   <aside id="library-sidebar" class="overlay-sidebar" aria-label="Digital Library Shelf Drawer">
     <div class="panel-header">
-     <h3>Biblioteca Digital</h3>
+     <h3>Digital Shelf</h3>
     </div>
     <div class="sidebar-nav">
-     <input type="text" id="library-filter" placeholder="Filtrar edições...">
+     <input type="text" id="library-filter" placeholder="Filter archive catalog...">
      <div class="library-grid" id="library-shelf-container">
-      <div class="paperback-card" data-source="lde.md" data-title="Volume I"><img src="icons/cover-1.svg"
-        alt="Capa 1"><span style="margin-top:6px; font-weight:600; font-size:0.8rem;">Volume I</span></div>
-      <div class="paperback-card" data-source="vol2.md" data-title="Volume II"><img src="icons/cover-2.svg"
-        alt="Capa 2"><span style="margin-top:6px; font-weight:600; font-size:0.8rem;">Volume II</span></div>
-      <div class="paperback-card" data-source="vol3.md" data-title="Volume III"><img src="icons/cover-3.svg"
-        alt="Capa 3"><span style="margin-top:6px; font-weight:600; font-size:0.8rem;">Volume III</span></div>
-      <div class="paperback-card" data-source="vol4.md" data-title="Volume IV"><img src="icons/cover-4.svg"
-        alt="Capa 4"><span style="margin-top:6px; font-weight:600; font-size:0.8rem;">Volume IV</span></div>
+      <div class="paperback-card" data-title="Volume I" data-source="lde.md"><img src="icons/cover-1.svg"
+        alt="Cover 1"><span style="margin-top:6px; font-weight:600; font-size:0.8rem;">Volume I</span></div>
+      <div class="paperback-card" data-title="Volume II" data-source="vol2.md"><img src="icons/cover-2.svg"
+        alt="Cover 2"><span style="margin-top:6px; font-weight:600; font-size:0.8rem;">Volume II</span></div>
+      <div class="paperback-card" data-title="Volume III" data-source="vol3.md"><img src="icons/cover-3.svg"
+        alt="Cover 3"><span style="margin-top:6px; font-weight:600; font-size:0.8rem;">Volume III</span></div>
+      <div class="paperback-card" data-title="Volume IV" data-source="vol4.md"><img src="icons/cover-4.svg"
+        alt="Cover 4"><span style="margin-top:6px; font-weight:600; font-size:0.8rem;">Volume IV</span></div>
+      <div class="paperback-card" data-title="Volume V" data-source="vol5.md"><img src="icons/cover-5.svg"
+        alt="Cover 5"><span style="margin-top:6px; font-weight:600; font-size:0.8rem;">Volume V</span></div>
+      <div class="paperback-card" data-title="Volume VI" data-source="vol6.md"><img src="icons/cover-6.svg"
+        alt="Cover 6"><span style="margin-top:6px; font-weight:600; font-size:0.8rem;">Volume VI</span></div>
+      <div class="paperback-card" data-title="Volume VII" data-source="vol7.md"><img src="icons/cover-7.svg"
+        alt="Cover 7"><span style="margin-top:6px; font-weight:600; font-size:0.8rem;">Volume VII</span></div>
+      <div class="paperback-card" data-title="Volume VIII" data-source="vol8.md"><img src="icons/cover-8.svg"
+        alt="Cover 8"><span style="margin-top:6px; font-weight:600; font-size:0.8rem;">Volume VIII</span></div>
+      <div class="paperback-card" data-title="Volume IX" data-source="vol9.md"><img src="icons/cover-9.svg"
+        alt="Cover 9"><span style="margin-top:6px; font-weight:600; font-size:0.8rem;">Volume IX</span></div>
+      <div class="paperback-card" data-title="Volume X" data-source="vol10.md"><img src="icons/cover-10.svg"
+        alt="Cover 10"><span style="margin-top:6px; font-weight:600; font-size:0.8rem;">Volume X</span></div>
      </div>
     </div>
    </aside>
 
-   <aside id="settings-sidebar" class="overlay-sidebar">
-    <div class="panel-header">
-     <h3>Configurações</h3>
-    </div>
+   <aside id="settings-sidebar" class="overlay-sidebar" aria-label="Engine Properties Panel">
     <div class="sidebar-nav">
+     <h3 style="margin-top:0;">Configuration</h3>
      <fieldset>
-      <legend>Provedor Enciclopédico</legend>
+      <legend>Encyclopaedic Hub Provider</legend>
       <label><input type="radio" name="encyclopedia-provider" value="pt_wikipedia" checked> Wikipédia (PT)</label>
       <label><input type="radio" name="encyclopedia-provider" value="en_wikipedia"> Wikipedia (EN)</label>
+      <label><input type="radio" name="encyclopedia-provider" value="sample1"> Sample Tracker 1</label>
      </fieldset>
      <fieldset>
-      <legend>Dicionário & Léxico</legend>
+      <legend>Lexicon Dictionary Provider</legend>
       <label><input type="radio" name="dictionary-provider" value="pt_wiktionary" checked> Wikcionário (PT)</label>
       <label><input type="radio" name="dictionary-provider" value="infopedia"> Portal Infopédia</label>
+      <label><input type="radio" name="dictionary-provider" value="sample2"> Sample Tracker 2</label>
      </fieldset>
      <fieldset>
-      <legend>Mapeamento de Coordenadas</legend>
-      <label><input type="radio" name="map-provider" value="openstreetmap" checked> OpenStreetMap</label>
+      <legend>Coordinate Cartography System</legend>
+      <label><input type="radio" name="map-provider" value="openstreetmap" checked> OpenStreetMap Engine</label>
      </fieldset>
     </div>
    </aside>
@@ -670,8 +749,9 @@
 
   <script>
    /* =========================================================================
-   4. SYNCHRONOUS LIFECYCLE MANAGEMENT ENGINE
-   ========================================================================= */
+      LIBRUS CORE ENGINE - UNIFIED CONTROL CORE v23
+      ========================================================================= */
+
    const LibrusState = {
     theme: localStorage.getItem('archive_theme') || 'light',
     density: localStorage.getItem('archive_user_density') || 'normal',
@@ -683,24 +763,38 @@
     serifFamilies: [
      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
      'Georgia, Times, "Times New Roman", serif',
-     'Palatino Linotype, "Palatino", serif',
-     'Roboto Slab, Arial, sans-serif'
+     'Palatino Linotype, "Palatino", "Book Antiqua", serif',
+     'Roboto Slab, "Segoe UI", "Helvetica Neue", Arial, sans-serif'
     ],
 
     searchProviders: {
-     pt_wikipedia: q => `https://pt.wikipedia.org/w/index.php?search=${q}`,
-     en_wikipedia: q => `https://en.wikipedia.org/w/index.php?search=${q}`,
-     pt_wiktionary: q => `https://pt.wiktionary.org/w/index.php?search=${q}`,
-     infopedia: q => `https://www.infopedia.pt/dicionarios/lingua-portuguesa/${q.toLowerCase()}`,
-     openstreetmap: q => `https://www.openstreetmap.org/search?query=${q}`
+     pt_wikipedia: q => 'https://pt.wikipedia.org/w/index.php?search=' + q,
+     en_wikipedia: q => 'https://en.wikipedia.org/w/index.php?search=' + q,
+     pt_wiktionary: q => 'https://pt.wiktionary.org/w/index.php?search=' + q,
+     infopedia: q => 'https://www.infopedia.pt/dicionarios/lingua-portuguesa/' + q,
+     openstreetmap: q => 'https://www.openstreetmap.org/search?query=' + q,
+     sample1: q => 'https://pt.wikipedia.org/w/index.php?search=Sample1+' + q,
+     sample2: q => 'https://pt.wiktionary.org/w/index.php?search=Sample2+' + q
     },
 
     init() {
-     document.body.setAttribute('data-theme', this.theme);
-     document.body.setAttribute('data-density', this.density);
-     document.body.setAttribute('data-justify', String(this.justify));
+     this.apply('theme', this.theme);
+     this.apply('density', this.density);
+     this.apply('justify', String(this.justify));
      this.updateFontProperties();
     },
+
+    set(key, value) {
+     this[key] = value;
+     this.apply(key, value);
+    },
+
+    apply(key, value) {
+     const storageKey = (key === 'density') ? 'archive_user_density' : 'archive_' + key;
+     localStorage.setItem(storageKey, value);
+     document.body.setAttribute('data-' + key, value);
+    },
+
     updateFontProperties() {
      document.body.style.setProperty('--size-reading', this.fontSize + 'rem');
      document.body.style.setProperty('--font-reading', this.serifFamilies[this.serifIndex]);
@@ -709,71 +803,400 @@
     }
    };
 
-   LibrusState.init();
-
-   /* =========================================================================
-   5. ASYNC MODULE PROCESSING PIPELINE (Decoupleable Actions Layer)
-   ========================================================================= */
    document.addEventListener('DOMContentLoaded', function () {
+    LibrusState.init();
+
     const DOM = {
-     workspace: document.querySelector('.main-workspace'), content: document.getElementById('content-area'),
-     toc: document.getElementById('toc-sidebar'), library: document.getElementById('library-sidebar'),
-     settings: document.getElementById('settings-sidebar'), iframe: document.getElementById('context'),
-     loader: document.getElementById('iframe-loader'), shade: document.getElementById('ctx-blur-shade'),
-     backdrop: document.getElementById('sidebar-backdrop'), tocContainer: document.getElementById('toc-links-container'),
-     searchCount: document.getElementById('search-count'), panelFilter: document.getElementById('panel-filter'),
-     tocFilter: document.getElementById('toc-filter'), libFilter: document.getElementById('library-filter'),
-     typoToggle: document.getElementById('btn-typo-toggle'), typoContainer: document.getElementById('typo-dropdown-container')
+     workspace: document.querySelector('.main-workspace'),
+     content: document.getElementById('content-area'),
+     toc: document.getElementById('toc-sidebar'),
+     library: document.getElementById('library-sidebar'),
+     settings: document.getElementById('settings-sidebar'),
+     iframe: document.getElementById('context'),
+     loader: document.getElementById('iframe-loader'),
+     shade: document.getElementById('ctx-blur-shade'),
+     backdrop: document.getElementById('sidebar-backdrop'),
+     tocContainer: document.getElementById('toc-links-container'),
+     searchCount: document.getElementById('search-count'),
+     panelFilter: document.getElementById('panel-filter'),
+     tocFilter: document.getElementById('toc-filter'),
+     libFilter: document.getElementById('library-filter')
     };
 
-    let searchHits = [];
-    let currentSearchIndex = -1;
-
+    /* ==========================================
+       1. SIDEBAR CONTROLS & BACKDROP SHADING
+       ========================================== */
     function closeAllSidebars() {
      [DOM.toc, DOM.library, DOM.settings].forEach(el => el && el.classList.remove('active'));
-     if (DOM.backdrop) DOM.backdrop.style.display = 'none';
+     if (DOM.backdrop) DOM.backdrop.classList.remove('active');
     }
 
     function openSidebar(sidebarEl) {
      closeAllSidebars();
      if (sidebarEl) {
       sidebarEl.classList.add('active');
-      if (DOM.backdrop) DOM.backdrop.style.display = 'block';
+      if (DOM.backdrop) DOM.backdrop.classList.add('active');
      }
     }
 
-    // Sidebar triggers
-    document.getElementById('toc-open').onclick = e => { e.stopPropagation(); DOM.toc.classList.contains('active') ? closeAllSidebars() : openSidebar(DOM.toc); };
-    document.getElementById('library-open').onclick = e => { e.stopPropagation(); DOM.library.classList.contains('active') ? closeAllSidebars() : openSidebar(DOM.library); };
-    document.getElementById('settings-open').onclick = e => { e.stopPropagation(); DOM.settings.classList.contains('active') ? closeAllSidebars() : openSidebar(DOM.settings); };
-    if (DOM.backdrop) DOM.backdrop.onclick = closeAllSidebars;
+    if (document.getElementById('toc-open')) {
+     document.getElementById('toc-open').onclick = e => {
+      e.stopPropagation();
+      DOM.toc.classList.contains('active') ? closeAllSidebars() : openSidebar(DOM.toc);
+     };
+    }
+    if (document.getElementById('library-open')) {
+     document.getElementById('library-open').onclick = e => {
+      e.stopPropagation();
+      DOM.library.classList.contains('active') ? closeAllSidebars() : openSidebar(DOM.library);
+     };
+    }
+    if (document.getElementById('settings-open')) {
+     document.getElementById('settings-open').onclick = e => {
+      e.stopPropagation();
+      DOM.settings.classList.contains('active') ? closeAllSidebars() : openSidebar(DOM.settings);
+     };
+    }
 
-    DOM.typoToggle.onclick = e => { e.stopPropagation(); DOM.typoContainer.classList.toggle('active'); };
-    document.addEventListener('click', e => {
-     if (!e.target.closest('.overlay-sidebar') && !e.target.closest('button')) closeAllSidebars();
-     if (!e.target.closest('.typo-menu-wrapper')) DOM.typoContainer.classList.remove('active');
-    });
+    if (DOM.backdrop) {
+     DOM.backdrop.onclick = e => { e.stopPropagation(); closeAllSidebars(); };
+    }
 
-    document.getElementById('theme-toggle').onclick = () => {
-     const target = document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-     document.body.setAttribute('data-theme', target);
-     localStorage.setItem('archive_theme', target);
+    document.onclick = function (e) {
+     if (!e.target.closest('.overlay-sidebar') && !e.target.closest('button')) {
+      closeAllSidebars();
+     }
     };
 
     /* ==========================================
-       6. TEXT FORMATTING LAYER
+       2. TYPOGRAPHY LAYER MENU MANAGEMENT
+       ========================================== */
+    const typoToggle = document.getElementById('btn-typo-toggle');
+    const typoMenu = document.getElementById('typo-dropdown-container');
+    if (typoToggle && typoMenu) {
+     typoToggle.onclick = e => {
+      e.stopPropagation();
+      typoMenu.classList.toggle('active');
+     };
+     document.addEventListener('click', e => {
+      if (!typoMenu.contains(e.target) && e.target !== typoToggle) {
+       typoMenu.classList.remove('active');
+      }
+     });
+    }
+
+    /* ==========================================
+       3. RECURSIVE DEEP HEADING SCROLL OBSERVER TREE
+       ========================================== */
+    function initializeActiveScrollObserver(headings) {
+     if (window.ArchiveScrollObserver) window.ArchiveScrollObserver.disconnect();
+
+     const observerOptions = { root: DOM.content, rootMargin: '0px 0px -70% 0px', threshold: 0 };
+
+     window.ArchiveScrollObserver = new IntersectionObserver(entries => {
+      let firstIntersecting = entries.find(e => e.isIntersecting);
+      if (!firstIntersecting) return;
+
+      DOM.toc.querySelectorAll('.toc-active-item').forEach(el => el.classList.remove('toc-active-item'));
+      const safeSlug = CSS.escape(firstIntersecting.target.id);
+      const targetNavNode = DOM.toc.querySelector(`[data-slug="${safeSlug}"], a[href="#${safeSlug}"]`);
+
+      if (targetNavNode) {
+       targetNavNode.classList.add('toc-active-item');
+
+       const activeChain = [];
+       let currentParent = targetNavNode.parentElement;
+       while (currentParent && currentParent !== DOM.tocContainer) {
+        if (currentParent.tagName === 'DETAILS') activeChain.push(currentParent);
+        currentParent = currentParent.parentElement;
+       }
+
+       DOM.tocContainer.querySelectorAll('details').forEach(detailsNode => {
+        detailsNode.open = activeChain.includes(detailsNode);
+       });
+
+       targetNavNode.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+     }, observerOptions);
+
+     headings.forEach(heading => window.ArchiveScrollObserver.observe(heading));
+    }
+
+    function buildTableOfContents() {
+     if (!DOM.tocContainer || !DOM.content) return;
+     DOM.tocContainer.innerHTML = '';
+
+     const headings = DOM.content.querySelectorAll('h1, h2, h3, h4');
+     const fragment = document.createDocumentFragment();
+     let activeContainers = { 1: fragment, 2: null, 3: null, 4: null };
+
+     headings.forEach((heading, index) => {
+      const slug = heading.textContent.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'sec-' + index;
+      heading.id = slug;
+
+      const level = parseInt(heading.tagName.substring(1), 10);
+      const nextHeading = headings[index + 1];
+      const hasChildren = nextHeading && parseInt(nextHeading.tagName.substring(1), 10) > level;
+
+      if (hasChildren && level < 4) {
+       const details = document.createElement('details');
+       details.open = (level === 1);
+
+       const summary = document.createElement('summary');
+       summary.textContent = heading.textContent;
+       summary.dataset.slug = slug;
+
+       summary.onclick = function (e) {
+        e.preventDefault();
+        heading.scrollIntoView({ behavior: 'smooth', block: 'center' });
+       };
+
+       details.appendChild(summary);
+       (activeContainers[level] || fragment).appendChild(details);
+       activeContainers[level + 1] = details;
+      } else {
+       const link = document.createElement('a');
+       link.href = '#' + slug;
+       link.textContent = heading.textContent;
+       link.className = 'toc-link-item';
+       link.dataset.slug = slug;
+
+       link.onclick = function (e) {
+        e.preventDefault();
+        heading.scrollIntoView({ behavior: 'smooth', block: 'center' });
+       };
+
+       (activeContainers[level] || fragment).appendChild(link);
+      }
+     });
+
+     DOM.tocContainer.appendChild(fragment);
+     initializeActiveScrollObserver(headings);
+    }
+
+    if (DOM.tocFilter) {
+     DOM.tocFilter.oninput = function (e) {
+      const query = e.target.value.toLowerCase().trim();
+      const links = DOM.tocContainer.querySelectorAll('.toc-link-item');
+      const detailBlocks = DOM.tocContainer.querySelectorAll('details');
+
+      if (!query) {
+       links.forEach(l => l.style.display = 'block');
+       detailBlocks.forEach(d => { d.style.display = 'block'; d.open = false; });
+       return;
+      }
+
+      const matchingContainers = new Set();
+      links.forEach(link => {
+       const matches = link.textContent.toLowerCase().includes(query);
+       link.style.display = matches ? 'block' : 'none';
+       if (matches) {
+        let parent = link.parentElement;
+        while (parent && parent !== DOM.tocContainer) {
+         if (parent.tagName === 'DETAILS') matchingContainers.add(parent);
+         parent = parent.parentElement;
+        }
+       }
+      });
+
+      detailBlocks.forEach(details => {
+       const summaryText = details.querySelector('summary').textContent.toLowerCase();
+       const summaryMatches = summaryText.includes(query);
+       if (summaryMatches || matchingContainers.has(details)) {
+        details.style.display = 'block';
+        details.open = true;
+       } else {
+        details.style.display = 'none';
+       }
+      });
+     };
+    }
+
+    /* ==========================================
+       4. MARKDOWN ENGINE INGESTION LAYER (Fetch File Context)
+       ========================================== */
+    async function loadBookBySourceFile(sourceFile, title) {
+     try {
+      const [markedMod, purifyMod] = await Promise.all([
+       import('https://cdn.jsdelivr.net/npm/marked@14.1.2/lib/marked.esm.js'),
+       import('https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.es.mjs')
+      ]);
+
+      const marked = markedMod.marked;
+      const DOMPurify = purifyMod.default || purifyMod.DOMPurify || purifyMod;
+
+      const normalizedPath = sourceFile.startsWith('http') ? sourceFile : `./${sourceFile}`;
+      const response = await fetch(normalizedPath);
+      if (!response.ok) throw new Error('HTTP status context exception: ' + response.status);
+      const markdownText = await response.text();
+
+      const rawHTML = marked.parse(markdownText);
+      const cleanHTML = DOMPurify.sanitize(rawHTML);
+
+      requestAnimationFrame(() => {
+       if (DOM.content) {
+        DOM.content.innerHTML = `<article>${cleanHTML}</article>`;
+        buildTableOfContents();
+        localStorage.setItem('archive_last_loaded_source', sourceFile);
+        localStorage.setItem('archive_last_loaded_title', title);
+       }
+      });
+     } catch (err) {
+      console.warn("Direct file fetch inaccessible. Engaging system container visual fallback structure.", err.message);
+      if (DOM.content) {
+       DOM.content.innerHTML = `<article>
+        <h1>${title || 'Immortal Archive Workspace'}</h1>
+        <p>Ingestion notice: Target markdown context file (<code>${sourceFile}</code>) could not be resolved directly by standard web runtime framework.</p>
+        <h2>Sample Section Header One</h2>
+        <p>This fallback template keeps viewports structured perfectly during standalone directory execution processes.</p>
+       </article>`;
+       buildTableOfContents();
+      }
+     }
+    }
+
+    /* ==========================================
+       5. DIGITAL LIBRARY GRID ACTIONS & EVENT FILTERS
+       ========================================== */
+    if (DOM.libFilter) {
+     DOM.libFilter.oninput = function (e) {
+      const query = e.target.value.toLowerCase().trim();
+      const cards = document.querySelectorAll('#library-shelf-container .paperback-card');
+      cards.forEach(card => {
+       const title = card.getAttribute('data-title').toLowerCase();
+       card.style.display = title.includes(query) ? 'flex' : 'none';
+      });
+     };
+    }
+
+    document.querySelectorAll('#library-shelf-container .paperback-card').forEach(card => {
+     card.onclick = () => {
+      const source = card.getAttribute('data-source');
+      const title = card.getAttribute('data-title');
+      loadBookBySourceFile(source, title);
+      closeAllSidebars();
+     };
+    });
+
+    /* ==========================================
+       6. THE "FIRST CHOICE" HISTORICAL RULES MANDATE
+       ========================================== */
+    const savedSource = localStorage.getItem('archive_last_loaded_source');
+    const savedTitle = localStorage.getItem('archive_last_loaded_title');
+
+    if (savedSource && savedTitle) {
+     // A persistent asset history was found, restore workspace content area directly
+     loadBookBySourceFile(savedSource, savedTitle);
+    } else {
+     // Rule Matrix Baseline: Open Shelf wide, leave center clear for prompt execution
+     openSidebar(DOM.library);
+     if (DOM.content) {
+      DOM.content.innerHTML = `<article style="text-align: center; padding-top: 14vh; color: var(--text-muted);">
+       <h2>No Asset Selected</h2>
+       <p>Please select an edition from the wide Digital Shelf sidebar matrix on the left to ingest text and initialize workspace pipelines.</p>
+      </article>`;
+     }
+    }
+
+    /* ==========================================
+       7. DYNAMIC LIVE HIGH-PERFORMANCE SEARCH HIGHLIGHTS
+       ========================================== */
+    let searchHits = [];
+    let currentSearchIndex = -1;
+
+    function clearHighlights() {
+     searchHits = [];
+     currentSearchIndex = -1;
+     if (DOM.searchCount) DOM.searchCount.textContent = '0 / 0';
+     if (!DOM.content) return;
+
+     const highlights = DOM.content.querySelectorAll('.search-highlight');
+     highlights.forEach(h => {
+      const parent = h.parentNode;
+      if (parent) {
+       parent.replaceChild(document.createTextNode(h.textContent), h);
+       parent.normalize();
+      }
+     });
+    }
+
+    if (DOM.panelFilter) {
+     DOM.panelFilter.oninput = function (e) {
+      clearHighlights();
+      const query = e.target.value.trim();
+      if (!query) return;
+
+      const pattern = new RegExp(query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+      const walker = document.createTreeWalker(DOM.content, NodeFilter.SHOW_TEXT);
+      const nodes = [];
+      let n;
+      while (n = walker.nextNode()) nodes.push(n);
+
+      nodes.forEach(node => {
+       const text = node.nodeValue;
+       if (!pattern.test(text)) return;
+       pattern.lastIndex = 0;
+
+       const frag = document.createDocumentFragment();
+       let lastIndex = 0, match;
+
+       while ((match = pattern.exec(text)) !== null) {
+        frag.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
+        const mark = document.createElement('mark');
+        mark.className = 'search-highlight';
+        mark.textContent = match[0];
+        frag.appendChild(mark);
+        lastIndex = pattern.lastIndex;
+       }
+       frag.appendChild(document.createTextNode(text.slice(lastIndex)));
+       node.parentNode.replaceChild(frag, node);
+      });
+
+      searchHits = Array.from(DOM.content.querySelectorAll('.search-highlight'));
+      if (searchHits.length > 0) activateSearchHit(0);
+     };
+    }
+
+    function activateSearchHit(index) {
+     if (!searchHits.length) return;
+     searchHits.forEach((hit, idx) => hit.classList.toggle('current-search-hit', idx === index));
+     currentSearchIndex = index;
+     if (DOM.searchCount) DOM.searchCount.textContent = `${currentSearchIndex + 1} / ${searchHits.length}`;
+     searchHits[currentSearchIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    if (document.getElementById('btn-search-prev')) {
+     document.getElementById('btn-search-prev').onclick = () => {
+      if (searchHits.length) activateSearchHit((currentSearchIndex - 1 + searchHits.length) % searchHits.length);
+     };
+    }
+    if (document.getElementById('btn-search-next')) {
+     document.getElementById('btn-search-next').onclick = () => {
+      if (searchHits.length) activateSearchHit((currentSearchIndex + 1) % searchHits.length);
+     };
+    }
+
+    /* ==========================================
+       8. STABILIZED SYSTEM TYPOGRAPHY LAYERS
        ========================================== */
     document.getElementById('btn-density').onclick = () => {
-     const cycle = { normal: 'compact', compact: 'loose', loose: 'normal' };
-     const next = cycle[document.body.getAttribute('data-density') || 'normal'];
-     document.body.setAttribute('data-density', next);
-     localStorage.setItem('archive_user_density', next);
+     const options = ['compact', 'normal', 'loose'];
+     let idx = (options.indexOf(LibrusState.density) + 1) % options.length;
+     LibrusState.set('density', options[idx]);
     };
 
     document.getElementById('btn-justify').onclick = () => {
-     const next = !(document.body.getAttribute('data-justify') === 'true');
-     document.body.setAttribute('data-justify', String(next));
-     localStorage.setItem('archive_justify', String(next));
+     LibrusState.set('justify', !LibrusState.justify);
+    };
+
+    document.getElementById('btn-font-inc').onclick = () => {
+     LibrusState.fontSize = Math.min(LibrusState.fontSize + 0.05, 1.4);
+     LibrusState.updateFontProperties();
+    };
+
+    document.getElementById('btn-font-dec').onclick = () => {
+     LibrusState.fontSize = Math.max(LibrusState.fontSize - 0.05, 0.85);
+     LibrusState.updateFontProperties();
     };
 
     document.getElementById('btn-font-family').onclick = () => {
@@ -781,215 +1204,107 @@
      LibrusState.updateFontProperties();
     };
 
-    document.getElementById('btn-font-inc').onclick = () => { LibrusState.fontSize = Math.min(2.5, LibrusState.fontSize + 0.1); LibrusState.updateFontProperties(); };
-    document.getElementById('btn-font-dec').onclick = () => { LibrusState.fontSize = Math.max(0.7, LibrusState.fontSize - 0.1); LibrusState.updateFontProperties(); };
-
-    /* ==========================================
-       7. TABLE OF CONTENTS MATRIX
-       ========================================== */
-    function initializeScrollObserver(headings) {
-     if (window.ArchiveScrollObserver) window.ArchiveScrollObserver.disconnect();
-     const options = { root: DOM.content, rootMargin: '0px 0px -70% 0px', threshold: 0 };
-
-     window.ArchiveScrollObserver = new IntersectionObserver(entries => {
-      let activeEntry = entries.find(e => e.isIntersecting);
-      if (!activeEntry) return;
-
-      DOM.toc.querySelectorAll('.toc-active-item').forEach(el => el.classList.remove('toc-active-item'));
-      const safeSlug = CSS.escape(activeEntry.target.id);
-      const targetLink = DOM.toc.querySelector(`[data-slug="${safeSlug}"], a[href="#${safeSlug}"]`);
-
-      if (targetLink) {
-       targetLink.classList.add('toc-active-item');
-       targetLink.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }
-     }, options);
-
-     headings.forEach(h => window.ArchiveScrollObserver.observe(h));
-    }
-
-    function generateTOC() {
-     if (!DOM.tocContainer || !DOM.content) return;
-     DOM.tocContainer.innerHTML = '';
-     const headings = DOM.content.querySelectorAll('h1, h2, h3, h4');
-     if (!headings.length) { DOM.tocContainer.textContent = 'Nenhum índice disponível'; return; }
-
-     const fragment = document.createDocumentFragment();
-     headings.forEach((h, idx) => {
-      if (!h.id) h.id = 'heading-node-' + idx;
-      const link = document.createElement('a');
-      link.className = 'toc-link-item';
-      link.textContent = h.textContent;
-      link.href = '#' + h.id;
-      link.dataset.slug = h.id;
-      link.onclick = e => {
-       e.preventDefault();
-       h.scrollIntoView({ behavior: 'smooth', block: 'center' });
-       closeAllSidebars();
-      };
-      fragment.appendChild(link);
-     });
-     DOM.tocContainer.appendChild(fragment);
-     initializeScrollObserver(headings);
-    }
-
-    /* ==========================================
-       8. DYNAMIC INGESTION ENGINE (Book Selection)
-       ========================================== */
-    async function loadDocumentSource(filename) {
-     if (!DOM.content) return;
-     const article = DOM.content.querySelector('article');
-
-     try {
-      const response = await fetch(filename);
-      if (!response.ok) throw new Error('Source network mismatch');
-      const text = await response.text();
-
-      // Basic fallback client-side markdown parsing for standalone compliance
-      let cleanedHtml = text
-       .replace(/^# (.*)$/gm, '<h1>$1</h1>')
-       .replace(/^## (.*)$/gm, '<h2>$1</h2>')
-       .replace(/^### (.*)$/gm, '<h3>$1</h3>')
-       .replace(/^\s*\n/gm, '')
-       .replace(/^([^<].*)$/gm, '<p>$1</p>');
-
-      article.innerHTML = cleanedHtml;
-     } catch (e) {
-      // Robust standard demo fallback architecture if local network blocks fetch
-      article.innerHTML = `
-        <h1>Librus Engine Matrix: ${filename}</h1>
-        <p>Documento carregado no sistema local. Selecione qualquer palavra do texto para acionar pesquisas cruzadas nos frames laterais de referência.</p>
-        <h2>Capítulo I: Processamento de Dados</h2>
-        <p>As rotinas operacionais funcionam de maneira assíncrona.</p>
-        <h2>Capítulo II: Otimização de Interface</h2>
-        <p>A rotação do viewport preserva a integridade estrutural e previne quebras de renderização.</p>
-      `;
-     }
-     generateTOC();
-    }
-
-    // Bind Ingestion Core Event Listeners to Paperback Cards
-    document.querySelectorAll('#library-shelf-container .paperback-card').forEach(card => {
-     card.onclick = () => {
-      const sourceFile = card.getAttribute('data-source') || 'lde.md';
-      loadDocumentSource(sourceFile);
-      closeAllSidebars();
+    if (document.getElementById('theme-toggle')) {
+     document.getElementById('theme-toggle').onclick = () => {
+      LibrusState.set('theme', LibrusState.theme === 'dark' ? 'light' : 'dark');
      };
+    }
+
+    /* ==========================================
+       9. RECOVERED LIVE TEXT SELECTION PIPELINE
+       ========================================== */
+    const shareBtn = document.getElementById('btn-share');
+    if (shareBtn) {
+     let cachedSelection = "";
+     if (DOM.content) {
+      DOM.content.addEventListener('mouseup', () => {
+       const str = window.getSelection().toString().trim();
+       if (str) cachedSelection = str;
+      });
+      DOM.content.addEventListener('keyup', () => {
+       const str = window.getSelection().toString().trim();
+       if (str) cachedSelection = str;
+      });
+     }
+
+     shareBtn.onclick = function () {
+      const activeText = cachedSelection || window.getSelection().toString().trim();
+      const bookTitle = DOM.content?.querySelector('h1')?.textContent || 'Librus Asset';
+      const outText = activeText ? `"${activeText}"` : `Reading: ${bookTitle}`;
+
+      const payload = {
+       title: 'Librus Workspace',
+       text: outText,
+       url: window.location.href
+      };
+
+      if (navigator.share && navigator.canShare && navigator.canShare(payload)) {
+       navigator.share(payload).catch(err => console.warn('Share system skipped:', err));
+      } else {
+       const clipString = `${payload.text}\nSource Frame: ${payload.url}`;
+       if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(clipString)
+         .then(() => alert(`Text Selection copied to system clipboard:\n\n${clipString}`))
+         .catch(() => alert(`Shared selection info:\n\n${clipString}`));
+       } else {
+        alert(`Shared selection info:\n\n${clipString}`);
+       }
+      }
+     };
+    }
+
+    /* ==========================================
+       10. REFERENCE ROUTER IFRAME INTEGRATIONS
+       ========================================== */
+    document.querySelectorAll('input[type="radio"]').forEach(radio => {
+     radio.addEventListener('change', e => {
+      if (e.target.name === 'encyclopedia-provider' || e.target.name === 'dictionary-provider') {
+       LibrusState.activeSearchProvider = e.target.value;
+      }
+     });
     });
 
-    // Default Initialization: Load first choice (lde.md) automatically on startup
-    loadDocumentSource('lde.md');
-
-    /* ==========================================
-       9. LIVE SEARCH HIGHLIGHTER
-       ========================================== */
-    function clearSearchHighlights() {
-     if (searchHits.length > 0 && DOM.content) {
-      const article = DOM.content.querySelector('article');
-      if (article) article.innerHTML = article.innerHTML.replace(/<span class="search-highlight[^"]*"[^>]*>(.*?)<\/span>/g, '$1');
-     }
-     searchHits = []; currentSearchIndex = -1;
-     DOM.searchCount.textContent = '0 / 0';
-    }
-
-    if (DOM.panelFilter) {
-     DOM.panelFilter.oninput = function (e) {
-      clearSearchHighlights();
-      const query = e.target.value.trim();
-      if (query.length < 2) return;
-
-      const article = DOM.content.querySelector('article');
-      if (!article) return;
-
-      const regex = new RegExp(`(${query.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')})`, 'gi');
-      article.innerHTML = article.innerHTML.replace(/(<[^>]+>|[^<]+)/g, function (match, p1) {
-       if (p1.startsWith('<')) return p1;
-       return p1.replace(regex, '<span class="search-highlight">$1</span>');
-      });
-
-      searchHits = Array.from(article.querySelectorAll('.search-highlight'));
-      if (searchHits.length > 0) {
-       currentSearchIndex = 0;
-       searchHits[0].classList.add('current-search-hit');
-       searchHits[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
-       DOM.searchCount.textContent = `1 / ${searchHits.length}`;
+    const referenceTabs = ['ctx-encyclopaedia', 'ctx-dictionary', 'ctx-map'];
+    referenceTabs.forEach(id => {
+     const btn = document.getElementById(id);
+     if (!btn) return;
+     btn.addEventListener('click', e => {
+      e.preventDefault();
+      const selection = window.getSelection().toString().trim();
+      if (!selection) {
+       alert("No text selection discovered! Highlight a word inside the reading panel first.");
+       return;
       }
-     };
-    }
 
-    document.getElementById('btn-search-next').onclick = () => {
-     if (!searchHits.length) return;
-     searchHits[currentSearchIndex].classList.remove('current-search-hit');
-     currentSearchIndex = (currentSearchIndex + 1) % searchHits.length;
-     searchHits[currentSearchIndex].classList.add('current-search-hit');
-     searchHits[currentSearchIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
-     DOM.searchCount.textContent = `${currentSearchIndex + 1} / ${searchHits.length}`;
-    };
+      if (DOM.loader) DOM.loader.classList.add('active');
+      let providerKey = LibrusState.activeSearchProvider;
 
-    document.getElementById('btn-search-prev').onclick = () => {
-     if (!searchHits.length) return;
-     searchHits[currentSearchIndex].classList.remove('current-search-hit');
-     currentSearchIndex = (currentSearchIndex - 1 + searchHits.length) % searchHits.length;
-     searchHits[currentSearchIndex].classList.add('current-search-hit');
-     searchHits[currentSearchIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
-     DOM.searchCount.textContent = `${currentSearchIndex + 1} / ${searchHits.length}`;
-    };
+      if (id === 'ctx-encyclopaedia') {
+       const checkedRadio = document.querySelector('input[name="encyclopedia-provider"]:checked');
+       providerKey = checkedRadio ? checkedRadio.value : 'pt_wikipedia';
+      } else if (id === 'ctx-dictionary') {
+       const checkedRadio = document.querySelector('input[name="dictionary-provider"]:checked');
+       providerKey = checkedRadio ? checkedRadio.value : 'pt_wiktionary';
+      } else if (id === 'ctx-map') {
+       providerKey = 'openstreetmap';
+      }
 
-    /* ==========================================
-       10. CONTEXT RESEARCH LAYER
-       ========================================== */
-    function handleSelectedLookup(targetElementId) {
-     const selection = window.getSelection().toString().trim();
-     if (!selection) return;
-
-     if (DOM.loader) DOM.loader.classList.add('active');
-     let key = LibrusState.activeSearchProvider;
-
-     if (targetElementId === 'ctx-encyclopaedia') {
-      const radio = document.querySelector('input[name="encyclopedia-provider"]:checked');
-      key = radio ? radio.value : 'pt_wikipedia';
-     } else if (targetElementId === 'ctx-dictionary') {
-      const radio = document.querySelector('input[name="dictionary-provider"]:checked');
-      key = radio ? radio.value : 'pt_wiktionary';
-     }
-
-     const engine = LibrusState.searchProviders[key] || LibrusState.searchProviders.pt_wikipedia;
-     if (DOM.iframe) DOM.iframe.src = engine(encodeURIComponent(selection));
-    }
-
-    ['ctx-encyclopaedia', 'ctx-dictionary'].forEach(id => {
-     document.getElementById(id).onclick = () => handleSelectedLookup(id);
+      const builder = LibrusState.searchProviders[providerKey] || LibrusState.searchProviders.pt_wikipedia;
+      let encodedQuery = encodeURIComponent(selection);
+      if (providerKey === 'infopedia') encodedQuery = encodedQuery.toLowerCase();
+      if (DOM.iframe) DOM.iframe.src = builder(encodedQuery);
+     });
     });
 
     if (DOM.iframe) {
-     DOM.iframe.onload = () => { if (DOM.loader) DOM.loader.classList.remove('active'); };
+     DOM.iframe.addEventListener('load', () => { if (DOM.loader) DOM.loader.classList.remove('active'); });
     }
-    document.getElementById('ctx-toggle').onclick = () => DOM.shade.classList.toggle('active');
-
-    // Fixed: Expand Viewport Frame Toggle Controller Switch
-    document.getElementById('ctx-expand').onclick = function () {
-     DOM.workspace.classList.toggle('drawer-expand');
-    };
-
-    // Fixed: Webshare Interoperability Pipeline
-    document.getElementById('btn-share').onclick = function () {
-     const selection = window.getSelection().toString().trim();
-     if (!selection) {
-      alert('Por favor, selecione uma parte do texto antes de compartilhar.');
-      return;
-     }
-
-     if (navigator.share) {
-      navigator.share({
-       title: 'Librus v.22 Shared Clipping',
-       text: selection
-      }).catch(() => { });
-     } else {
-      navigator.clipboard.writeText(selection).then(() => {
-       alert('Trecho copiado para a área de transferência!');
-      });
-     }
-    };
+    if (document.getElementById('ctx-toggle')) {
+     document.getElementById('ctx-toggle').onclick = () => { if (DOM.shade) DOM.shade.classList.toggle('active'); };
+    }
+    if (document.getElementById('ctx-expand')) {
+     document.getElementById('ctx-expand').onclick = () => { if (DOM.workspace) DOM.workspace.classList.toggle('drawer-expand'); };
+    }
    });
   </script>
  </body>
