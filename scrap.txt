@@ -1,0 +1,184 @@
+Metrics
+There are 76 functions in this file.
+
+Function with the largest signature take 3 arguments, while the median is 1.
+
+Largest function has 68 statements in it, while the median is 2.
+
+The most complex function has a cyclomatic complexity value of 17 while the median is 1.
+
+172 warnings
+6	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+10	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+48	'let' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+49	'let' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+52	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+53	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+53	'template literal syntax' is only available in ES6 (use 'esversion: 6').
+54	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+54	'template literal syntax' is only available in ES6 (use 'esversion: 6').
+55	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+55	'template literal syntax' is only available in ES6 (use 'esversion: 6').
+67	'default parameters' is only available in ES6 (use 'esversion: 6').
+69	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+82	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+83	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+86	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+90	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+102	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+103	'let' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+106	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+111	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+113	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+114	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+121	'let' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+124	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+126	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+133	'let' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+134	'template literal syntax' is only available in ES6 (use 'esversion: 6').
+136	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+138	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+139	'template literal syntax' is only available in ES6 (use 'esversion: 6').
+144	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+146	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+147	'template literal syntax' is only available in ES6 (use 'esversion: 6').
+153	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+154	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+155	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+156	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+163	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+168	'let' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+180	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+195	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+196	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+197	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+198	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+199	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+200	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+215	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+216	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+217	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+220	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+221	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+229	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+230	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+235	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+236	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+237	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+238	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+239	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+242	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+242	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+270	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+271	'template literal syntax' is only available in ES6 (use 'esversion: 6').
+277	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+282	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+283	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+291	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+300	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+301	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+302	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+312	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+314	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+315	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+316	'concise methods' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+322	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+323	'let' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+325	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+326	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+327	'let' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+328	'let' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+329	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+332	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+334	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+340	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+356	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+356	'Optional chaining' is only available in ES11 (use 'esversion: 11').
+358	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+359	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+362	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+363	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+364	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+374	'let' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+375	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+376	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+377	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+381	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+387	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+389	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+396	'let' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+404	'let' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+409	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+410	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+412	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+422	'template literal syntax' is only available in ES6 (use 'esversion: 6').
+428	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+429	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+434	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+434	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+435	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+437	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+438	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+457	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+458	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+466	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+467	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+468	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+480	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+481	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+482	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+493	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+493	'async functions' is only available in ES8 (use 'esversion: 8').
+493	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+496	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+496	'destructuring binding' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+497	'dynamic import' is only available in ES11 (use 'esversion: 11').
+498	'dynamic import' is only available in ES11 (use 'esversion: 11').
+500	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+500	'destructuring binding' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+501	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+504	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+507	'concise methods' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+507	'Optional chaining' is only available in ES11 (use 'esversion: 11').
+508	'concise methods' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+509	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+510	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+522	'concise methods' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+523	'template literal syntax' is only available in ES6 (use 'esversion: 6').
+534	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+535	'template literal syntax' is only available in ES6 (use 'esversion: 6').
+536	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+538	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+539	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+541	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+548	'template literal syntax' is only available in ES6 (use 'esversion: 6').
+569	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+570	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+572	'let' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+574	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+575	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+575	'template literal syntax' is only available in ES6 (use 'esversion: 6').
+577	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+579	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+580	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+583	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+586	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+590	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+599	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+603	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+609	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+615	'let' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+630	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+636	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+637	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+639	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+640	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+642	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+642	'template literal syntax' is only available in ES6 (use 'esversion: 6').
+646	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+647	'let' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+654	'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+655	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+665	'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+One undefined variable
+496	Promise

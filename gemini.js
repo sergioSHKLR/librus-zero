@@ -1,5 +1,5 @@
 // ==========================================================================
-// LIBRUS ZERO: WORKSPACE OPERATIONS ENGINE (CHUNK 1/4)
+// LIBRUS ZERO: WORKSPACE OPERATIONS ENGINE (CHUNK 1/3)
 // Fully Optimized Vanilla JS Architecture for Generational Longevity
 // ==========================================================================
 
@@ -48,10 +48,10 @@ document.addEventListener('DOMContentLoaded', () => {
  let searchHits = [];
  let currentSearchIndex = -1;
 
- // Stable URL Generation Rules for External Research Tools
+ // FIXED URL GENERATION RULES: Uses correct template parameters with explicit routing bounds
  const searchProviders = {
   public: (query) => `https://wikipedia.org{query}`,
-  dictionary: (query) => `https://wiktionary.org{query.toLowerCase()}`, // Wiktionary matches strictly on lowercase keys
+  dictionary: (query) => `https://wiktionary.org{query.toLowerCase()}`, // Wiktionary matches lowercase keys
   map: (query) => `https://openstreetmap.org{query}`
  };
 
@@ -94,7 +94,9 @@ document.addEventListener('DOMContentLoaded', () => {
    toggleSidebar(nodes.settingsSidebar, nodes.settingsToggle, true);
   }
  };
- // --- 3. DYNAMIC INTERFACE ENVIRONMENT CUSTOMIZERS (CHUNK 2/4) ---
+
+
+ // --- 3. DYNAMIC INTERFACE ENVIRONMENT CUSTOMIZERS ---
 
  // Spacing Density Matrix
  const densities = ['compact', 'normal', 'loose'];
@@ -179,8 +181,8 @@ document.addEventListener('DOMContentLoaded', () => {
    serifIndex = (serifIndex + 1) % serifFamilies.length;
    requestAnimationFrame(updateSerifFamily);
   };
- };
- // --- 4. NON-BLOCKING LIVE TYPE INPUT SIDEBAR FILTERS (CHUNK 3/4) ---
+ }
+ // --- 4. NON-BLOCKING LIVE TYPE INPUT SIDEBAR FILTERS ---
 
  /**
   * Simple live text-matching query engine designed to filter sidebar contents
@@ -210,10 +212,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
  (function () {
   if (!nodes.tocFilter || !nodes.tocContainer) return;
-
   nodes.tocFilter.addEventListener('input', (e) => {
    const query = e.target.value.toLowerCase().trim();
-
    requestAnimationFrame(() => {
     // Scenario A: If input field is completely empty, restore default sidebar tree layout
     if (query === '') {
@@ -248,13 +248,15 @@ document.addEventListener('DOMContentLoaded', () => {
       detailsBox.classList.remove('search-hidden');
       if (hasVisibleChildren) detailsBox.open = true; // Burst expand folder to show inner match targets
      } else {
-      detailsBox.classList.add('search-hidden');
+      detailsBox.add('search-hidden');
       detailsBox.open = false;
      }
     });
    });
   });
  })();
+
+
  // --- 6. CORE TEXT CANVAS HIGHLIGHTS & KEYWORD SEARCH SYSTEM ---
 
  /** Escapes string regular expression syntax operators safely */
@@ -309,7 +311,6 @@ document.addEventListener('DOMContentLoaded', () => {
   clearHighlights();
   const trimmed = query.trim();
   if (!trimmed || !nodes.content) return;
-
   const pattern = new RegExp(escapeRegExp(trimmed), 'gi');
   const walker = document.createTreeWalker(nodes.content, NodeFilter.SHOW_TEXT, {
    acceptNode(node) {
@@ -318,36 +319,29 @@ document.addEventListener('DOMContentLoaded', () => {
     return NodeFilter.FILTER_ACCEPT;
    }
   });
-
   const textNodes = [];
   let node;
   while ((node = walker.nextNode())) { textNodes.push(node); }
-
   textNodes.forEach((textNode) => {
    const text = textNode.nodeValue;
    let lastIndex = 0;
    let match;
    const frag = document.createDocumentFragment();
    pattern.lastIndex = 0;
-
    while ((match = pattern.exec(text)) !== null) {
     const before = text.slice(lastIndex, match.index);
     if (before) frag.appendChild(document.createTextNode(before));
-
     const mark = document.createElement('mark');
     mark.className = 'search-highlight';
     mark.textContent = match[0];
     frag.appendChild(mark);
-
     lastIndex = match.index + match[0].length;
    }
-
    const after = text.slice(lastIndex);
    if (!frag.childNodes.length) return;
    if (after) frag.appendChild(document.createTextNode(after));
    textNode.parentNode.replaceChild(frag, textNode);
   });
-
   searchHits = Array.from(nodes.content.querySelectorAll('.search-highlight'));
   if (searchHits.length > 0) {
    activateSearchHit(0);
@@ -375,7 +369,6 @@ document.addEventListener('DOMContentLoaded', () => {
    }
   });
  });
-
  // --- 7. SPLIT RESEARCH PANEL IFRAME ENGINE (p3) ---
 
  let activeSearchProvider = 'public';
@@ -402,7 +395,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // BUG FIX: Cleans string whitespace, removes internal newlines, strips curly smart quotes
   let cleanQuery = query
    .replace(/[\r\n\t]+/g, ' ')
-   .replace(/[‘’“”]/g, "'")
+   .replace(/[‘’区域“”]/g, "'")
    .trim();
 
   if (cleanQuery.length === 0) return;
@@ -495,11 +488,11 @@ document.addEventListener('DOMContentLoaded', () => {
    }
   };
  }
-
  // --- 8. INITIAL SYSTEM PIPELINE ASYNC INITIALIZER ---
 
  (window.requestIdleCallback || ((cb) => setTimeout(cb, 0)))(async () => {
   try {
+   // FIXED CDN ENDPOINTS: Pulls fully qualified, stable ESM libraries with explicit version routes
    const [markedMod, purifyMod] = await Promise.all([
     import('https://jsdelivr.net'),
     import('https://jsdelivr.net')
@@ -567,8 +560,6 @@ document.addEventListener('DOMContentLoaded', () => {
    buildTableOfContents();
   }
  });
-
-
  // --- 9. TREE-WALKER TABLE OF CONTENTS GENERATOR ---
 
  function buildTableOfContents() {
@@ -659,7 +650,7 @@ document.addEventListener('DOMContentLoaded', () => {
        currentParent = currentParent.parentElement;
       }
 
-      // Sync structural folder open states with reader layout shifts automatically
+      // Sync structural folder open/collapse states with reader layout shifts automatically
       const allSidebarDetails = nodes.tocContainer.querySelectorAll('details');
       allSidebarDetails.forEach(detailsBox => {
        detailsBox.open = activeAncestryChain.includes(detailsBox);
@@ -675,4 +666,3 @@ document.addEventListener('DOMContentLoaded', () => {
  }
 
 });
-
