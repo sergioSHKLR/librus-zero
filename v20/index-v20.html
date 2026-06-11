@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Librus Workspace v.20: High-performance, zero-build text processing engine.">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="stylesheet" href="style-v20.css">
+  <title>Librus Workspace v.20</title>
+ </head>
+
+ <body data-theme="light" data-density="normal" data-justify="false">
+  <header class="top-bar">
+   <button id="toc-open" title="Table of Contents"><img src="icons/toc.svg" alt=""></button>
+   <button id="library-open" title="Library Shell"><img src="icons/library_books.svg" alt=""></button>
+   <div class="brand">librus v20</div>
+   <button id="theme-toggle" title="Toggle Theme Matrix"><img src="icons/dark_mode.svg" alt=""></button>
+  </header>
+  <div class="main-workspace">
+   <div id="sidebar-backdrop"
+    style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 140; display: none; background: transparent;">
+   </div>
+   <main class="main-panel" role="main">
+    <div class="panel-header">
+     <div class="input-with-clear">
+      <input type="text" id="panel-filter" placeholder="Procurar no texto..." autocomplete="off">
+     </div>
+     <div id="search-count" class="search-count">0 / 0</div>
+
+     <button id="btn-search-prev" title="Resultado Anterior"><img src="icons/keyboard_arrow_up.svg" alt=""></button>
+     <button id="btn-search-next" title="Próximo Resultado"><img src="icons/keyboard_arrow_down.svg" alt=""></button>
+     <div class="divider"></div>
+
+     <button id="btn-font-family" title="Cycle Reading Font Family Styles"><img src="icons/slab_serif.svg"
+       alt=""></button>
+     <button id="btn-font-inc" title="Increase Target Font Size"><img src="icons/text_increase.svg" alt=""></button>
+     <button id="btn-font-dec" title="Decrease Target Font Size"><img src="icons/text_decrease.svg" alt=""></button>
+     <button id="btn-density" title="Cycle Reading Spacing Density"><img src="icons/format_line_spacing.svg"
+       alt=""></button>
+     <button id="btn-justify" title="Toggle Alignment Justification"><img src="icons/format_align_justify.svg"
+       alt=""></button>
+    </div>
+    <div class="panel-body" id="content-area">
+     <article>
+      <h2>Capítulo Primeiro</h2>
+      <p>Selecione qualquer segmento de texto dentro deste painel de leitura para despachar consultas instantâneas para
+       as ferramentas de pesquisa localizadas na gaveta de referências à sua direita.</p>
+      <p>Modifique as regras de tipografia diretamente na barra superior para validar as alterações de densidade,
+       justificação estrutural ou tamanho de exibição de fontes em tempo de execução.</p>
+     </article>
+    </div>
+   </main>
+   <aside id="context-panel" class="research-drawer" role="complementary" aria-label="Reference Panel Drawer">
+    <div class="panel-header">
+     <button id="ctx-encyclopaedia" title="Pesquisar na Enciclopédia"><img src="icons/globe.svg" alt=""></button>
+     <button id="ctx-dictionary" title="Pesquisar no Dicionário"><img src="icons/dictionary.svg" alt=""></button>
+     <button id="ctx-map" title="Pesquisar no Mapa" disabled><img src="icons/map.svg" alt=""></button>
+     <div class="divider"></div>
+     <button id="ctx-toggle" title="Alternar Protetor de Distrações (Blur)"><img src="icons/blur_on.svg"
+       alt=""></button>
+     <button id="ctx-expand" title="Alternar Tela Expandida"><img src="icons/arrows_outward.svg" alt=""></button>
+     <button id="" class="" title="Share"><img src="icons/share.svg" alt=""></button>
+     <div class="divider"></div>
+
+     <button id="settings-open" title="Search Engine Configuration Settings"><img src="icons/settings.svg"
+       alt=""></button>
+
+    </div>
+    <div class="research-frame-container" style="position: relative; flex: 1; width: 100%; height: 100%;">
+     <div id="iframe-loader" class="iframe-loading-overlay">
+      <div class="loading-spinner-ring"></div>
+     </div>
+     <div id="ctx-blur-shade" class="ctx-blur-shade">
+      <p class="shade-message">Filtro Antidistração Ativo</p>
+     </div>
+     <iframe id="context" src="about:blank" title="Research Reference Engine Viewport" loading="lazy"></iframe>
+    </div>
+   </aside>
+   <aside id="toc-sidebar" class="overlay-sidebar" aria-label="Table of Contents Management Overlay">
+    <div class="panel-header">
+     <h3>Sumário</h3>
+    </div>
+    <div class="sidebar-nav">
+     <input type="text" id="toc-filter" placeholder="Filtrar capítulos..."
+      style="width:100%; padding:8px; margin-bottom:12px;">
+     <div id="toc-links-container"></div>
+    </div>
+   </aside>
+   <aside id="library-sidebar" class="overlay-sidebar" aria-label="Library Browser Asset Shelf">
+    <div class="panel-header">
+     <h3>Biblioteca Digital</h3>
+    </div>
+    <div class="sidebar-nav">
+     <input type="text" id="library-filter" placeholder="Filtrar edições..."
+      style="width:100%; padding:8px; margin-bottom:16px;">
+     <div class="library-grid">
+      <div class="paperback-card">
+       <img src="covers/sample1.jpg" alt="Capa Livro 1">
+       <span style="margin-top:6px; font-weight:600;">Volume I</span>
+      </div>
+      <div class="paperback-card">
+       <img src="covers/sample2.jpg" alt="Capa Livro 2">
+       <span style="margin-top:6px; font-weight:600;">Volume II</span>
+      </div>
+     </div>
+    </div>
+   </aside>
+   <aside id="settings-sidebar" class="overlay-sidebar" aria-label="Search Configuration Management Dashboard">
+    <div class="sidebar-nav">
+     <h3 style="margin-top:0;">Configurações</h3>
+     <fieldset>
+      <legend>Provedor Enciclopédico</legend>
+      <label><input type="radio" name="encyclopedia-provider" value="pt_wikipedia" checked> Wikipédia (PT)</label>
+      <label><input type="radio" name="encyclopedia-provider" value="en_wikipedia"> Wikipedia (EN)</label>
+     </fieldset>
+     <fieldset>
+      <legend>Dicionário & Léxico</legend>
+      <label><input type="radio" name="dictionary-provider" value="pt_wiktionary" checked> Wikcionário (PT)</label>
+      <label><input type="radio" name="dictionary-provider" value="infopedia"> Portal Infopédia</label>
+     </fieldset>
+     <fieldset>
+      <legend>Mapeamento de Coordenadas</legend>
+      <label><input type="radio" name="map-provider" value="openstreetmap" checked> OpenStreetMap</label>
+     </fieldset>
+    </div>
+   </aside>
+  </div>
+  <script src="script-v20.js"></script>
+ </body>
+
+</html>

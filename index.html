@@ -4,193 +4,116 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description"
-   content="The Immortal Archive: A high-performance, zero-build monolithic documentation repository designed for generational survival.">
-  <meta name="theme-color" content="#ffffff">
-  <link rel="manifest" href="/manifest.json">
-  <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <link rel="preconnect" href="https://unpkg.com">
-  <link rel="preconnect" href="https://hypothes.is">
-
-  <link rel="stylesheet" href="semantic.css" />
-  <title>reader</title>
+  <title>librus v.23 Production Framework</title>
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/panels.css">
+  <link rel="stylesheet" href="styles/reader.css">
  </head>
 
  <body data-theme="light" data-density="normal" data-justify="false">
-
-  <!-- top-bar -->
-  <div class="top-bar">
-   <button id="toc-open" class="nav-btn" aria-expanded="false" aria-controls="toc-sidebar" aria-label="toc" title="toc">
-    <img src="./icons/toc.svg" alt="" width="24" height="24">
-   </button>
-   <button id="library-open" class="nav-btn" aria-expanded="false" aria-controls="library-sidebar" aria-label="library"
-    title="library">
-    <img src="./icons/library_books.svg" alt="" width="24" height="24">
-   </button>
-   <button id="theme-toggle" class="nav-btn" aria-label="theme" title="theme">
-    <img src="./icons/dark_mode.svg" alt="" width="24" height="24">
-   </button>
-   <div id="brand" class="brand" aria-hidden="true">librus.app</div>
+  <div id="orientation-shield" role="alert" aria-live="assertive">
+   <div class="device-silhouette"></div>
+   <p class="shield-title">Landscape Mode Required</p>
+   <p class="shield-sub">Rotate your device horizontally to view the workspace layout correctly.</p>
   </div>
-
+  <header class="top-bar">
+   <button id="toc-open" title="Table of Contents"><img src="icons/toc.svg" alt="TOC"></button>
+   <button id="library-open" title="Library Shell"><img src="icons/library_books.svg" alt="Library"></button>
+   <div class="brand">librus v23</div>
+   <button id="theme-toggle" title="Toggle Theme Matrix"><img src="icons/dark_mode.svg" alt="Theme"></button>
+  </header>
   <div class="main-workspace">
-   <!-- toc-sidebar -->
-   <div id="toc-sidebar" class="toc-sidebar" role="navigation" aria-label="Table of Contents Navigation Index">
-    <div class="sidebar-nav">
-     <h3>toc</h3>
-     <div class="input-with-clear">
-      <input type="text" id="toc-filter" placeholder="filtrar" aria-label="filter">
-      <button type="button" class="input-clear-btn" aria-label="clear" title="clear">×</button>
+   <div id="sidebar-backdrop"></div>
+   <main class="main-panel" role="main">
+    <div class="panel-header">
+     <div class="input-with-clear"><input type="text" id="panel-filter" placeholder="Search text body..."
+       autocomplete="off"></div>
+     <div id="search-count" class="search-count">0 / 0</div>
+     <button id="btn-search-prev" title="Previous Occurrence"><img src="icons/keyboard_arrow_up.svg" alt="Up"></button>
+     <button id="btn-search-next" title="Next Occurrence"><img src="icons/keyboard_arrow_down.svg" alt="Down"></button>
+     <div class="divider"></div>
+     <div class="typo-menu-wrapper" style="position: relative; display: inline-block;">
+      <button class="icon-btn" id="btn-typo-toggle" title="Typography Options"
+       style="font-weight: bold; font-size: 0.95rem;">Aa</button>
+      <div class="typo-dropdown-menu" id="typo-dropdown-container">
+       <button class="icon-btn" id="btn-font-family" title="Cycle Font Matrix"><img src="icons/slab_serif.svg"
+         alt="Font"></button>
+       <button class="icon-btn" id="btn-font-inc" title="Increase Size"><img src="icons/text_increase.svg"
+         alt="+"></button>
+       <button class="icon-btn" id="btn-font-dec" title="Decrease Size"><img src="icons/text_decrease.svg"
+         alt="-"></button>
+       <button class="icon-btn" id="btn-density" title="Toggle Density"><img src="icons/format_line_spacing.svg"
+         alt="Density"></button>
+       <button class="icon-btn" id="btn-justify" title="Toggle Justification"><img src="icons/format_align_justify.svg"
+         alt="Justify"></button>
+      </div>
      </div>
-     <div id="toc-links-container"></div>
     </div>
-   </div>
-
-   <!-- main-panel -->
-   <main class="main-panel">
-    <div class="panel-header" role="toolbar" aria-label="Text customizer settings panel">
-     <div class="input-with-clear">
-      <input type="text" id="panel-filter" placeholder="procurar" aria-label="filter">
-      <button type="button" class="input-clear-btn" aria-label="clear" title="clear">×</button>
-     </div>
-     <button id="btn-search" aria-label="search" title="search"><img src="./icons/search.svg" alt="" width="24"
-       height="24"></button>
-     <span id="search-count" class="search-count" aria-live="polite" aria-atomic="true"></span>
-     <button id="btn-search-prev" class="search-nav" type="button" aria-label="prev" title="prev"><img
-       src="./icons/keyboard_arrow_up.svg"></button>
-     <button id="btn-search-next" class="search-nav" type="button" aria-label="next" title="next"><img
-       src="icons/keyboard_arrow_down.svg"></button>
-     <span class="divider" aria-hidden="true"></span>
-     <button id="btn-font-family" aria-label="font" title="font"><img src="./icons/slab_serif.svg" alt="" width="24"
-       height="24"></button>
-     <button id="btn-font-inc" aria-label="increase" title="increase"><img src="./icons/text_increase.svg" alt=""
-       width="24" height="24"></button>
-     <button id="btn-font-dec" aria-label="decrease" title="decrease"><img src="./icons/text_decrease.svg" alt=""
-       width="24" height="24"></button>
-     <button id="btn-density" aria-label="density" title="density"><img src="./icons/format_line_spacing.svg" alt=""
-       width="24" height="24"></button>
-     <button id="btn-justify" aria-label="justify" title="justify"><img src="./icons/subject.svg" alt="" width="24"
-       height="24"></button>
-    </div>
-    <!-- content-visibility stabilizes CLS during heavy file injection parses -->
-
-    <div id="content-area" class="panel-body" style="content-visibility: auto; contain-intrinsic-size: auto 1000px;">
-     <article>
-      <h1>Immortal Archive</h1>
-      <p>Welcome to the archive reader. Use the search tools above to highlight terms and explore reference content.</p>
-      <h2>Archive Principles</h2>
-      <p>This archive stores generational knowledge in a self-contained, long-lived interface.</p>
-      <h3>Persistence</h3>
-      <p>Content is designed to remain accessible with minimal dependencies.</p>
-      <h3>Clarity</h3>
-      <p>Navigation and controls emphasize readability and simple interaction.</p>
-      <h2>Navigation</h2>
-      <p>Use the table of contents drawer to jump between sections, and the library panel to access indexed volumes.</p>
-     </article>
+    <div class="panel-body" id="content-area">
+     <article></article>
     </div>
    </main>
-
-   <!-- context-panel -->
-   <aside class="context-panel" id="context-panel" role="complementary" aria-label="External reference research panel">
-    <div class="panel-header" role="toolbar" aria-label="Iframe search settings buttons">
-     <button id="ctx-public" aria-label="public" title="public"><img src="./icons/public.svg" alt="" width="24"
-       height="24"></button>
-     <button id="ctx-dictionary" aria-label="dictionary" title="dictionary"><img src="./icons/dictionary.svg" alt=""
-       width="24" height="24"></button>
-     <button id="ctx-map" class="disabled-btn" aria-label="map" aria-disabled="true" title="map"><img
-       src="./icons/map.svg" alt="" width="24" height="24"></button>
-     <button id="settings-open" aria-expanded="false" aria-controls="settings-sidebar" aria-label="settings"
-      title="settings"><img src="./icons/settings.svg" alt="" width="24" height="24"></button>
-     <span class="divider" aria-hidden="true"></span>
-     <button id="ctx-toggle" aria-label="visibility" title="visibility"><img src="./icons/visibility_off.svg" alt=""
-       width="24" height="24"></button>
-     <button id="ctx-fullscreen" aria-label="fullscreen" title="fullscreen"><img src="./icons/fullscreen.svg" alt=""
-       width="24" height="24"></button>
-     <button id="ctx-share" aria-label="share" title="share"><img src="./icons/share.svg" alt="" width="24"
-       height="24"></button>
+   <aside id="context-panel" class="research-drawer" role="complementary" aria-label="Reference Panel">
+    <div class="panel-header">
+     <button id="ctx-encyclopaedia" title="Encyclopedia"><img src="icons/globe.svg" alt="Global"></button>
+     <button id="ctx-dictionary" title="Dictionary"><img src="icons/dictionary.svg" alt="Lexicon"></button>
+     <div class="divider"></div>
+     <button id="ctx-toggle" title="Antidistraction Shade"><img src="icons/blur_on.svg" alt="Shade"></button>
+     <button id="ctx-expand" title="Maximize Viewport"><img src="icons/arrows_outward.svg" alt="Expand"></button>
+     <div class="divider"></div>
+     <button id="settings-open" title="Configurations"><img src="icons/settings.svg" alt="Settings"></button>
     </div>
-
-    <div class="panel-body" style="padding:0; position: relative;">
-     <!-- Injected Loading Overlay Layer -->
+    <div class="research-frame-container" style="position: relative; flex: 1; width: 100%; height: 100%;">
      <div id="iframe-loader" class="iframe-loading-overlay">
       <div class="loading-spinner-ring"></div>
      </div>
-     <!-- loading=lazy prevents blocking early page loads -->
-     <div id="ctx-blur-shade" class="ctx-blur-shade" aria-hidden="true"></div>
-     <iframe id="context" src="https://wikipedia.org" title="Research Reference Frame Viewport" loading="lazy"></iframe>
+     <div id="ctx-blur-shade" class="ctx-blur-shade">
+      <p class="shade-message">Focus Shading Shield Active</p>
+     </div>
+     <iframe id="context" src="about:blank" title="Reference Area" loading="lazy"></iframe>
     </div>
    </aside>
-
-   <!-- library-sidebar -->
-   <div id="library-sidebar" class="library-sidebar" role="navigation" aria-label="Library index storage volume panel">
+   <aside id="toc-sidebar" class="overlay-sidebar" aria-label="Table of Contents Drawer">
+    <div class="panel-header">
+     <h3>Table of Contents</h3>
+    </div>
     <div class="sidebar-nav">
-     <h3>Library</h3>
-     <div class="input-with-clear">
-      <input type="text" id="library-filter" placeholder="filtrar" aria-label="filter">
-      <button type="button" class="input-clear-btn" aria-label="clear">×</button>
-     </div>
-     <div id="library-shelf-container" class="book-grid">
-      <div class="book-card">
-       <img src="./icons/library_books.svg" alt="Volume cover" loading="lazy" width="40" height="72" />
-       <div class="book-meta">
-        <strong>Volume I</strong>
-        <span>History</span>
-       </div>
-      </div>
-      <div class="book-card">
-       <img src="./icons/library_books.svg" alt="Volume cover" loading="lazy" width="40" height="72" />
-       <div class="book-meta">
-        <strong>Volume II</strong>
-        <span>Science</span>
-       </div>
-      </div>
-      <div class="book-card">
-       <img src="./icons/library_books.svg" alt="Volume cover" loading="lazy" width="40" height="72" />
-       <div class="book-meta">
-        <strong>Volume III</strong>
-        <span>Culture</span>
-       </div>
-      </div>
+     <input type="text" id="toc-filter" placeholder="Filter sections...">
+     <div id="toc-links-container"></div>
+    </div>
+   </aside>
+   <aside id="library-sidebar" class="overlay-sidebar" aria-label="Library Shelf Drawer">
+    <div class="panel-header">
+     <h3>Digital Shelf</h3>
+    </div>
+    <div class="sidebar-nav">
+     <input type="text" id="library-filter" placeholder="Filter archive catalog...">
+     <div class="library-grid" id="library-shelf-container">
+      <div class="paperback-card" data-title="Volume I" data-source="lde.md"><img src="icons/cover-1.svg"
+        alt="Cover 1"><span style="margin-top:6px; font-weight:600; font-size:0.8rem;">Volume I</span></div>
+      <div class="paperback-card" data-title="Volume II" data-source="vol2.md"><img src="icons/cover-2.svg"
+        alt="Cover 2"><span style="margin-top:6px; font-weight:600; font-size:0.8rem;">Volume II</span></div>
      </div>
     </div>
-   </div>
-
-   <!-- hidden settings sidebar -->
-   <div id="settings-sidebar" class="settings-sidebar" role="complementary" aria-label="Search provider settings">
+   </aside>
+   <aside id="settings-sidebar" class="overlay-sidebar" aria-label="Engine Properties Panel">
     <div class="sidebar-nav">
-     <h3>Settings</h3>
+     <h3 style="margin-top:0;">Configuration</h3>
      <fieldset>
-      <legend>Encyclopedia</legend>
-      <label><input type="radio" name="encyclopedia-provider" checked> Provider 1</label>
-      <label><input type="radio" name="encyclopedia-provider"> Provider 2</label>
-      <label><input type="radio" name="encyclopedia-provider"> Provider 3</label>
+      <legend>Encyclopaedic Hub Provider</legend>
+      <label><input type="radio" name="encyclopedia-provider" value="pt_wikipedia" checked> Wikipédia (PT)</label>
+      <label><input type="radio" name="encyclopedia-provider" value="en_wikipedia"> Wikipedia (EN)</label>
      </fieldset>
      <fieldset>
-      <legend>Dictionary</legend>
-      <label><input type="radio" name="dictionary-provider" checked> Provider 1</label>
-      <label><input type="radio" name="dictionary-provider"> Provider 2</label>
-      <label><input type="radio" name="dictionary-provider"> Provider 3</label>
-     </fieldset>
-     <fieldset>
-      <legend>Maps</legend>
-      <label><input type="radio" name="map-provider" checked> Provider 1</label>
-      <label><input type="radio" name="map-provider"> Provider 2</label>
-      <label><input type="radio" name="map-provider"> Provider 3</label>
+      <legend>Lexicon Dictionary Provider</legend>
+      <label><input type="radio" name="dictionary-provider" value="pt_wiktionary" checked> Wikcionário (PT)</label>
+      <label><input type="radio" name="dictionary-provider" value="infopedia"> Portal Infopédia</label>
      </fieldset>
     </div>
-   </div>
+   </aside>
   </div>
-
-  <script type="module" src="semantic.js"></script>
-  <script>
-   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js').catch(() => { });
-   }
-  </script>
-  <script type="application/json" class="js-hypothesis-config">
-    { "openSidebar": false }
-  </script>
-  <script async src="https://hypothes.is" defer></script>
+  <script type="module" src="js/main.js"></script>
  </body>
 
 </html>

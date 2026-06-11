@@ -1,0 +1,47 @@
+/**
+ * LIBRUS CORE SYSTEM - BASE VARIABLES & TYPOGRAPHY MATRICES
+ * File Location: /styles/base.css
+ */
+:root {
+ --bg-main: #ffffff;
+ --bg-panel: #f8f9fa;
+ --text-primary: #212529;
+ --text-muted: #6c757d;
+ --border-light: #dee2e6;
+ --accent-link: #0056b3;
+ --control-size: 38px;
+ --control-radius: 6px;
+ --control-bg: #ffffff;
+ --control-border: 1px solid var(--border-light);
+ --icon-filter: none;
+ --backdrop-shade: rgba(0, 0, 0, 0.25);
+ --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+ --font-reading: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+ --size-reading: 1rem;
+ --lh-reading: 1.6;
+ --align-reading: left;
+}
+[data-theme="dark"] {
+ --bg-main: #141414;
+ --bg-panel: #1e1e1e;
+ --text-primary: #e2e2e2;
+ --text-muted: #8c8c8c;
+ --border-light: #2d2d2d;
+ --control-bg: #262626;
+ --control-border: 1px solid #383838;
+ --accent-link: #52a5ff;
+ --icon-filter: invert(0.92) brightness(1.1);
+ --backdrop-shade: rgba(0, 0, 0, 0.45);
+}
+* { box-sizing: border-box; }
+body {
+ margin: 0;
+ padding: 0;
+ font-family: var(--font-ui);
+ background: var(--bg-main);
+ color: var(--text-primary);
+ display: flex;
+ flex-direction: column;
+ height: 100vh;
+ overflow: hidden;
+}
