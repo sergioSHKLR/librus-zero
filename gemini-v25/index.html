@@ -6,6 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GEMINI v25 – Super eReader</title>
 
+  <!-- Preload webfonts early (critical for body text + icons).
+       crossorigin is required for font preloads. We ship a serve.json that makes
+       plain `npx serve` (from this dir) automatically send the needed ACAO headers. -->
+  <link rel="preload" href="assets/fonts/webfonts/RobotoSlab-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="assets/fonts/webfonts/MaterialSymbolsOutlined%5BFILL%2CGRAD%2Copsz%2Cwght%5D.woff2" as="font" type="font/woff2" crossorigin>
+
   <link rel="stylesheet" href="assets/css/non-critical.css" media="print" onload="this.media='all'">
   <noscript>
    <link rel="stylesheet" href="assets/css/non-critical.css">
@@ -42,7 +48,6 @@
     --base-font-size: 16px;
    }
 
-   /* --- Webfonts (loaded via early critical @font-face for body + icons) --- */
    @font-face {
     font-display: swap;
     font-family: 'Roboto Slab';
@@ -56,9 +61,6 @@
     font-family: 'Material Symbols Outlined';
     font-style: normal;
     font-weight: 100 700;
-    src: url('assets/fonts/webfonts/MaterialSymbolsOutlined.woff2') format('woff2');
-   }
-
    /* Icon base (critical so <span class="material-symbols-outlined"> render immediately) */
    .material-symbols-outlined {
     font-family: 'Material Symbols Outlined';
@@ -163,6 +165,9 @@
 
    .main-content {
     flex: 1;
+   .main-content {
+    flex: 1;
+    font-family: var(--font-serif);
     margin: 0 auto;
     max-width: 720px;
     overflow-y: auto;
