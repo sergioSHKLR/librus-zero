@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LIBRUS v25 – Super eReader</title>
+
+  <!-- Material Symbols CDN -->
+  <link rel="stylesheet"
+   href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+
+  <style>
+   :root {
+    --bg-primary: #fff;
+    --bg-secondary: #f8f7f4;
+    --bg-theme: #ccffcc;
+    /* 10% of base color */
+    --btn-h-w: 38px;
+    --color-accent: #3a3a3a;
+    --color-border: #d4d4d4;
+    --font-mono: ui-monospace, monospace;
+    --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-serif: 'Roboto Slab', Georgia, "Times New Roman", serif;
+    --library-w: calc(100vw - 460px);
+    --line-height: 1.75;
+    --sidebar-w: 300px;
+    --text-muted: #555555;
+    --text-primary: #1f1f1f;
+    --topbar-h: 50px
+   }
+
+   .dark {
+    --bg-primary: #1c1c1c;
+    --bg-secondary: #252525;
+    --bg-theme: #003300;
+    /* 90% of base color */
+    --color-accent: #5c5c5c;
+    --color-border: #444444;
+    --text-muted: #aaaaaa;
+    --text-primary: #e8e8e8
+   }
+
+   @font-face {
+    font-display: swap;
+    font-family: 'Roboto Slab';
+    font-weight: 400 700;
+    src: url(../fonts/webfonts/RobotoSlab-VariableFont_wght.woff2) format("woff2")
+   }
+
+   @font-face {
+    font-display: swap;
+    font-family: 'Material Symbols Outlined';
+    src: url(../fonts/webfonts/MaterialSymbolsOutlined[FILL,GRAD,opsz,wght].woff2) format("woff2")
+   }
+
+   .material-icon {
+    display: inline-block;
+    font-family: 'Material Symbols Outlined';
+    font-size: 1.4rem;
+    font-variation-settings: FILL 0, wght 400, GRAD 0, opsz 24;
+    height: 1.4em;
+    line-height: 1;
+    text-align: center;
+    user-select: none;
+    vertical-align: middle;
+    width: 1.4em
+   }
+
+   *,
+   ::before,
+   ::after {
+    box-sizing: border-box
+   }
+
+   html,
+   body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: var(--base-font-size);
+    height: 100%;
+    line-height: var(--line-height);
+    margin: 0;
+    overflow: hidden;
+    padding: 0
+   }
+
+   #topbar {
+    align-items: center;
+    background: var(--bg-theme);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    box-sizing: border-box;
+    display: flex;
+    gap: 10px;
+    height: var(--topbar-h);
+    justify-content: center;
+    left: 0;
+    padding: 0;
+    position: relative;
+    right: 0;
+    top: 0;
+    transition: margin-top .4s ease;
+    will-change: margin-top
+   }
+
+   #topbar.hidden {
+    transform: translateY(-100%)
+   }
+
+   .topbar-left {
+    width: 25%
+   }
+
+   .topbar-center {
+    align-items: center;
+    display: flex;
+    font-family: sans;
+    height: 50px;
+    justify-content: center;
+    width: 50%
+   }
+
+   .topbar-right {
+    align-items: center;
+    display: flex;
+    height: 50px;
+    justify-content: flex-end;
+    padding: 0;
+    width: 25%
+   }
+
+   #lower-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: calc(100vh - var(--topbar-h))
+   }
+
+   .toolbar {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    gap: 10px;
+    height: var(--topbar-h);
+    padding: 20px;
+    position: relative;
+    transition: margin-top .4s ease;
+    will-change: margin-top
+   }
+
+   #main-panel-toolbar::after {
+    background: var(--color-border);
+    background-color: var(--color-border);
+    bottom: 0;
+    bottom: 0;
+    content: '';
+    height: 1px;
+    height: 1px;
+    left: 2rem;
+    left: 20px;
+    position: absolute;
+    position: absolute;
+    right: 0;
+    right: 0
+   }
+
+   .main-panel-toolbar-left input {
+    background-color: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    box-sizing: border-box;
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: .9rem;
+    height: var(--btn-h-w);
+    margin: 0;
+    padding: 0 10px;
+    transition: width .3s ease-in-out, box-shadow .3s ease-in-out;
+    width: 160px
+   }
+
+   .main-panel-toolbar-left input:focus {
+    background-color: var(--bg-primary);
+    border-color: var(--color-accent);
+    outline: none
+   }
+
+   .main-panel-toolbar-left {
+    align-items: center;
+    display: flex;
+    gap: 10px;
+    height: 50px;
+    padding: 20px
+   }
+
+   #context-panel-toolbar::after {
+    background: var(--color-border);
+    bottom: 0;
+    content: '';
+    height: 1px;
+    left: 0;
+    position: absolute;
+    right: 2rem
+   }
+
+   .context-panel-toolbar-left {
+    align-items: center;
+    display: flex;
+    gap: 10px;
+    height: 50px;
+    padding: 20px;
+    width: 100%
+   }
+
+   .btn {
+    align-items: center;
+    background: none;
+    border: none;
+    border-radius: 6px;
+    color: var(--text-primary);
+    cursor: pointer;
+    display: inline-flex;
+    gap: 0;
+    height: var(--btn-h-w);
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    width: var(--btn-h-w)
+   }
+
+   .btn .material-symbols-outlined {
+    align-items: center;
+    display: flex;
+    font-size: 1.4rem;
+    height: 100%;
+    justify-content: center;
+    line-height: 1;
+    width: 100%
+   }
+
+   .overlay {
+    align-items: flex-start;
+    background: rgba(0, 0, 0, 0.5);
+    bottom: 0;
+    display: none;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: var(--topbar-h);
+    z-index: 800
+   }
+
+   .sidebar {
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--color-border);
+    bottom: 0;
+    box-shadow: 12px 0 12px -12px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    left: 0;
+    overflow-y: auto;
+    position: fixed;
+    top: var(--topbar-h);
+    z-index: 810
+   }
+
+   .config-sidebar,
+   .toc-sidebar {
+    width: var(--sidebar-w)
+   }
+
+   .library-sidebar {
+    width: var(--library-w)
+   }
+
+   .sidebar .toolbar {
+    align-items: center;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    flex-shrink: 0;
+    height: 50px;
+    padding: 0 1.5rem
+   }
+
+   .sidebar-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem
+   }
+
+   .panel {
+    background: var(--bg-primary);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative
+   }
+
+   .context-panel {
+    border-left: none;
+    border-right: none
+   }
+
+   .context-panel::before {
+    background: var(--color-border);
+    bottom: 50px;
+    content: '';
+    left: 0;
+    position: absolute;
+    top: 50px;
+    width: 1px;
+    z-index: 1
+   }
+
+   .main-content {
+    flex: 1;
+    margin: 0 auto;
+    max-width: 720px;
+    overflow-y: auto;
+    padding: 2rem 3rem
+   }
+
+   .main-content h1,
+   .main-content h2,
+   .main-content h3 {
+    border-bottom: 1px solid var(--color-border);
+    font-family: var(--font-serif);
+    margin: 2.5em 0 1em;
+    padding-bottom: .5em
+   }
+
+   .main-content p {
+    hyphens: auto;
+    margin-bottom: 1.5em;
+    text-align: justify
+   }
+
+   .main-content blockquote {
+    background: var(--bg-secondary);
+    border-left: 4px solid var(--color-accent);
+    color: var(--text-muted);
+    font-style: italic;
+    margin: 2rem 0;
+    padding: 1.25rem 1.5rem
+   }
+
+   .context-iframe {
+    border: none;
+    flex: 1;
+    width: 100%
+   }
+
+   .hidden {
+    display: none !important
+   }
+
+   .collapsed {
+    display: none
+   }
+
+   .active {
+    background: var(--color-accent);
+    color: white
+   }
+
+   .mono {
+    font-family: var(--font-mono)
+   }
+
+   .serif {
+    font-family: var(--font-serif)
+   }
+
+   .thumbnail {
+    border: 1px solid var(--color-border);
+    border-radius: 3px;
+    height: 64px;
+    object-fit: cover;
+    width: 48px
+   }
+
+   #main-panel-toolbar,
+   #context-panel-toolbar {
+    align-items: center;
+    background: var(--bg-primary);
+    box-sizing: border-box;
+    display: flex;
+    height: var(--topbar-h);
+    justify-content: space-between;
+    padding: 0;
+    position: sticky;
+    top: 0;
+    transition: margin-top .4s ease;
+    will-change: margin-top;
+    z-index: 10
+   }
+
+   .main-panel-toolbar-right,
+   .context-panel-toolbar-right {
+    align-items: center;
+    display: flex;
+    gap: 10px;
+    height: 50px;
+    justify-content: flex-end;
+    padding: 20px;
+    width: 100%
+   }
+
+   @media (orientation: portrait) and (max-width: 900px) {
+    .alert-portrait {
+     display: flex !important
+    }
+
+    #app-wrapper {
+     display: none
+    }
+   }
+
+   ::-webkit-scrollbar {
+    height: 6px;
+    width: 6px
+   }
+
+   ::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 3px
+   }
+
+   a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px
+   }
+
+   .dark {
+    --bg-primary: #1c1c1c;
+    --bg-secondary: #252525;
+    --color-accent: #5c5c5c;
+    --color-border: #444444;
+    --text-muted: #aaaaaa;
+    --text-primary: #e8e8e8
+   }
+
+   @font-face {
+    font-display: swap;
+    font-family: 'Roboto Slab';
+    font-weight: 400 700;
+    src: url(../fonts/webfonts/RobotoSlab-VariableFont_wght.woff2) format("woff2")
+   }
+
+   @font-face {
+    font-display: swap;
+    font-family: 'Material Symbols Outlined';
+    src: url(../fonts/webfonts/MaterialSymbolsOutlined[FILL,GRAD,opsz,wght].woff2) format("woff2")
+   }
+
+   .material-icon {
+    display: inline-block;
+    font-family: 'Material Symbols Outlined';
+    font-size: 1.4rem;
+    font-variation-settings: FILL 0, wght 400, GRAD 0, opsz 24;
+    height: 1.4em;
+    line-height: 1;
+    text-align: center;
+    user-select: none;
+    vertical-align: middle;
+    width: 1.4em
+   }
+
+   *,
+   ::before,
+   ::after {
+    box-sizing: border-box
+   }
+
+   html,
+   body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: var(--base-font-size);
+    height: 100%;
+    line-height: var(--line-height);
+    margin: 0;
+    overflow: hidden;
+    padding: 0
+   }
+
+   #topbar {
+    align-items: center;
+    background: var(--bg-theme);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    box-sizing: border-box;
+    display: flex;
+    gap: 10px;
+    height: var(--topbar-h);
+    justify-content: center;
+    left: 0;
+    padding: 0;
+    position: relative;
+    right: 0;
+    top: 0;
+    transition: margin-top .4s ease;
+    will-change: margin-top
+   }
+
+   #topbar.hidden {
+    transform: translateY(-100%)
+   }
+
+   .topbar-left {
+    width: 25%
+   }
+
+   .topbar-center {
+    align-items: center;
+    display: flex;
+    font-family: sans;
+    height: 50px;
+    justify-content: center;
+    width: 50%
+   }
+
+   .topbar-right {
+    align-items: center;
+    display: flex;
+    height: 50px;
+    justify-content: flex-end;
+    padding: 0;
+    width: 25%
+   }
+
+   #lower-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: calc(100vh - var(--topbar-h))
+   }
+
+   .toolbar {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    gap: 10px;
+    height: var(--topbar-h);
+    padding: 20px;
+    position: relative;
+    transition: margin-top .4s ease;
+    will-change: margin-top
+   }
+
+   #main-panel-toolbar::after {
+    background: var(--color-border);
+    background-color: var(--color-border);
+    bottom: 0;
+    bottom: 0;
+    content: '';
+    height: 1px;
+    height: 1px;
+    left: 2rem;
+    left: 20px;
+    position: absolute;
+    position: absolute;
+    right: 0;
+    right: 0
+   }
+
+   .main-panel-toolbar-left input {
+    background-color: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    box-sizing: border-box;
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: .9rem;
+    height: var(--btn-h-w);
+    margin: 0;
+    padding: 0 10px;
+    transition: width .3s ease-in-out, box-shadow .3s ease-in-out;
+    width: 160px
+   }
+
+   .main-panel-toolbar-left input:focus {
+    background-color: var(--bg-primary);
+    border-color: var(--color-accent);
+    outline: none
+   }
+
+   .main-panel-toolbar-left {
+    align-items: center;
+    display: flex;
+    gap: 10px;
+    height: 50px;
+    padding: 20px
+   }
+
+   #context-panel-toolbar::after {
+    background: var(--color-border);
+    bottom: 0;
+    content: '';
+    height: 1px;
+    left: 0;
+    position: absolute;
+    right: 2rem
+   }
+
+   .context-panel-toolbar-left {
+    align-items: center;
+    display: flex;
+    gap: 10px;
+    height: 50px;
+    padding: 20px;
+    width: 100%
+   }
+
+   .btn {
+    align-items: center;
+    background: none;
+    border: none;
+    border-radius: 6px;
+    color: var(--text-primary);
+    cursor: pointer;
+    display: inline-flex;
+    gap: 0;
+    height: var(--btn-h-w);
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    width: var(--btn-h-w)
+   }
+
+   .btn .material-symbols-outlined {
+    align-items: center;
+    display: flex;
+    font-size: 1.4rem;
+    height: 100%;
+    justify-content: center;
+    line-height: 1;
+    width: 100%
+   }
+
+   .overlay {
+    align-items: flex-start;
+    background: rgba(0, 0, 0, 0.5);
+    bottom: 0;
+    display: none;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: var(--topbar-h);
+    z-index: 800
+   }
+
+   .sidebar {
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--color-border);
+    bottom: 0;
+    box-shadow: 12px 0 12px -12px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    left: 0;
+    overflow-y: auto;
+    position: fixed;
+    top: var(--topbar-h);
+    z-index: 810
+   }
+
+   .config-sidebar,
+   .toc-sidebar {
+    width: var(--sidebar-w)
+   }
+
+   .library-sidebar {
+    width: var(--library-w)
+   }
+
+   .sidebar .toolbar {
+    align-items: center;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    flex-shrink: 0;
+    height: 50px;
+    padding: 0 1.5rem
+   }
+
+   .sidebar-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem
+   }
+
+   .panel {
+    background: var(--bg-primary);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative
+   }
+
+   .context-panel {
+    border-left: none;
+    border-right: none
+   }
+
+   .context-panel::before {
+    background: var(--color-border);
+    bottom: 50px;
+    content: '';
+    left: 0;
+    position: absolute;
+    top: 50px;
+    width: 1px;
+    z-index: 1
+   }
+
+   .main-content {
+    flex: 1;
+    margin: 0 auto;
+    max-width: 720px;
+    overflow-y: auto;
+    padding: 2rem 3rem
+   }
+
+   .main-content h1,
+   .main-content h2,
+   .main-content h3 {
+    border-bottom: 1px solid var(--color-border);
+    font-family: var(--font-serif);
+    margin: 2.5em 0 1em;
+    padding-bottom: .5em
+   }
+
+   .main-content p {
+    hyphens: auto;
+    margin-bottom: 1.5em;
+    text-align: justify
+   }
+
+   .main-content blockquote {
+    background: var(--bg-secondary);
+    border-left: 4px solid var(--color-accent);
+    color: var(--text-muted);
+    font-style: italic;
+    margin: 2rem 0;
+    padding: 1.25rem 1.5rem
+   }
+
+   .context-iframe {
+    border: none;
+    flex: 1;
+    width: 100%
+   }
+
+   .hidden {
+    display: none !important
+   }
+
+   .collapsed {
+    display: none
+   }
+
+   .active {
+    background: var(--color-accent);
+    color: white
+   }
+
+   .mono {
+    font-family: var(--font-mono)
+   }
+
+   .serif {
+    font-family: var(--font-serif)
+   }
+
+   .thumbnail {
+    border: 1px solid var(--color-border);
+    border-radius: 3px;
+    height: 64px;
+    object-fit: cover;
+    width: 48px
+   }
+
+   #main-panel-toolbar,
+   #context-panel-toolbar {
+    align-items: center;
+    background: var(--bg-primary);
+    box-sizing: border-box;
+    display: flex;
+    height: var(--topbar-h);
+    justify-content: space-between;
+    padding: 0;
+    position: sticky;
+    top: 0;
+    transition: margin-top .4s ease;
+    will-change: margin-top;
+    z-index: 10
+   }
+
+   .main-panel-toolbar-right,
+   .context-panel-toolbar-right {
+    align-items: center;
+    display: flex;
+    gap: 10px;
+    height: 50px;
+    justify-content: flex-end;
+    padding: 20px;
+    width: 100%
+   }
+
+   @media (orientation: portrait) and (max-width: 900px) {
+    .alert-portrait {
+     display: flex !important
+    }
+
+    #app-wrapper {
+     display: none
+    }
+   }
+
+   ::-webkit-scrollbar {
+    height: 6px;
+    width: 6px
+   }
+
+   ::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 3px
+   }
+
+   a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px
+   }
+  </style>
+ </head>
+
+ <body>
+
+  <!-- Portrait Alert -->
+  <div id="alert-portrait" class="alert-portrait hidden">
+   <div class="alert-animation"></div>
+   <div class="alert-title">
+    <div class="alert-content">
+     Rotate device to landscape for best reading experience
+    </div>
+   </div>
+  </div>
+
+
+  <!-- GLOBAL TOPBAR -->
+  <header id="topbar" class="topbar" role="banner">
+   <div id="topbar-left" class="topbar-left toolbar">
+    <button onclick="toggleOverlay('toc-overlay')" class="btn" title="Table of Contents">
+     <span class="material-symbols-outlined">toc</span>
+    </button>
+    <button onclick="toggleOverlay('library-overlay')" class="btn" title="Library">
+     <span class="material-symbols-outlined">library_books</span>
+    </button>
+   </div>
+
+   <div id="topbar-center" class="topbar-center toolbar">
+    <strong>LIBRUS v25</strong>
+   </div>
+
+   <div id="topbar-right" class="topbar-right toolbar">
+    <button onclick="toggleOverlay('config-overlay')" class="btn" title="Settings">
+     <span class="material-symbols-outlined">settings</span>
+    </button>
+    <button onclick="toggleDarkMode()" class="btn" title="Toggle Dark Mode">
+     <span class="material-symbols-outlined">dark_mode</span>
+    </button>
+    <button onclick="shareCurrentBook()" class="btn" title="Share">
+     <span class="material-symbols-outlined">share</span>
+    </button>
+   </div>
+  </header>
+
+  <!-- OFFSCREEN OVERLAYS -->
+  <div id="config-overlay" class="overlay" role="dialog" aria-hidden="true">
+   <div id="config-sidebar" class="sidebar config-sidebar">
+    <div id="config-toolbar" class="toolbar config-toolbar">Settings</div>
+    <div id="config-content" class="sidebar-content"></div>
+   </div>
+  </div>
+
+  <div id="library-overlay" class="overlay" role="dialog" aria-hidden="true">
+   <div id="library-sidebar" class="sidebar library-sidebar">
+    <div id="library-toolbar" class="toolbar library-toolbar">Library</div>
+    <div id="library-content" class="sidebar-content"></div>
+   </div>
+  </div>
+
+  <div id="toc-overlay" class="overlay" role="dialog" aria-hidden="true">
+   <div id="toc-sidebar" class="sidebar toc-sidebar">
+    <div id="toc-toolbar" class="toolbar toc-toolbar">Table of Contents</div>
+    <div id="toc-content" class="sidebar-content"></div>
+   </div>
+  </div>
+
+  <!-- LOWER VISIBLE AREA -->
+  <div id="lower-wrapper" class="lower-wrapper" role="main">
+
+   <!-- Main Reader Panel -->
+   <section id="main-panel" class="panel main-panel">
+    <div id="main-panel-toolbar" class="toolbar main-panel-toolbar">
+     <div class="main-panel-toolbar-left">
+      <input type="text" id="search-input" placeholder="Search in book...">
+      <button class="btn" title="Search"><span class="material-symbols-outlined">search</span></button>
+      <span id="search-results">0/0</span>
+      <button class="btn" title="Previous"><span class="material-symbols-outlined">keyboard_arrow_up</span></button>
+      <button class="btn" title="Next"><span class="material-symbols-outlined">keyboard_arrow_down</span></button>
+     </div>
+     <div class="main-panel-toolbar-right">
+      <button class="btn" title="Text options"><span class="material-symbols-outlined">match_case</span></button>
+     </div>
+    </div>
+    <div id="main-content" class="main-content">
+     <h1>The Book of Spirits – Prolegomena</h1>
+
+     <p>For those who believe they are seeing the dawn of a new era, it is necessary to understand the true nature of
+      the spiritual world...</p>
+
+     <h2>Chapter 1 – God and Creation</h2>
+     <p>God is the supreme intelligence, the primary cause of all things. He is eternal, immutable, immaterial, unique,
+      all-powerful, sovereignly just and good.</p>
+
+     <p>The universe is a manifestation of His power and wisdom. Spirits are His creations, endowed with free will,
+      progressing through different degrees of purification across multiple existences.</p>
+
+     <h2>Chapter 2 – The Spirit World</h2>
+     <p>Spirits are not abstract beings. They are real, individual entities that populate the invisible world. They can
+      communicate with the living through mediums, and their influence is constant in human affairs.</p>
+
+     <p>There are spirits of all degrees: from the most ignorant and perverse to the most elevated and pure. The latter
+      are the guardians and protectors of humanity.</p>
+
+     <h2>Chapter 3 – Reincarnation and Progress</h2>
+     <p>Reincarnation is the law of progress. The soul passes through multiple corporeal existences, each one offering
+      new opportunities for moral and intellectual advancement. Suffering is the result of past errors and serves as a
+      means of expiation and improvement.</p>
+
+     <p>The destiny of man is in his own hands. Through his actions, thoughts, and feelings, he builds his future
+      happiness or unhappiness.</p>
+
+     <h2>Chapter 4 – Moral Laws</h2>
+     <p>The highest law is that of love and charity. "Do unto others as you would have them do unto you." This is the
+      foundation of all true progress, both individual and collective.</p>
+
+     <p>Material possessions are temporary. Only moral qualities survive physical death and accompany the spirit into
+      the next life.</p>
+
+     <p style="margin-top: 80px; font-style: italic; text-align: center;">
+      (Scroll down several pages to test topbar hide/show behavior)
+     </p>
+
+     <!-- More content to ensure scrolling -->
+     <h2>Chapter 5 – Prayer and Meditation</h2>
+     <p>Prayer is a powerful force that elevates the soul. It is not a request for material favors, but a means of
+      spiritual communion with higher intelligences and with God.</p>
+
+     <p>Meditation allows man to reflect on his actions and align himself with divine laws. Regular practice leads to
+      inner peace and moral elevation.</p>
+
+     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
+      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat.</p>
+
+     <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+     </p>
+
+     <p>More content continues here... This should be long enough for several pages of scrolling.</p>
+    </div>
+   </section>
+
+   <!-- Context Panel -->
+   <aside id="context-panel" class="panel context-panel">
+    <div id="context-panel-toolbar" class="toolbar context-panel-toolbar">
+     <div class="context-panel-toolbar-left">
+      <button class="btn" title="Back"><span class="material-symbols-outlined">arrow_back</span></button>
+      <button class="btn" title="Web View"><span class="material-symbols-outlined">globe</span></button>
+      <button class="btn" title="Dictionary"><span class="material-symbols-outlined">dictionary</span></button>
+      <button class="btn" title="Maps"><span class="material-symbols-outlined">map</span></button>
+     </div>
+     <div class="context-panel-toolbar-right">
+      <button onclick="document.getElementById('pdf-upload').click()" class="btn" title="Upload PDF">
+       <span class="material-symbols-outlined">upload</span>
+      </button>
+      <input type="file" id="pdf-upload" accept=".pdf" style="display:none;" onchange="loadPdf(this.files[0])">
+
+      <button class="btn" title="Toggle visibility"><span
+        class="material-symbols-outlined">visibility_off</span></button>
+      <button class="btn" title="Expand"><span class="material-symbols-outlined">expand_content</span></button>
+     </div>
+    </div>
+    <iframe id="context-iframe" class="context-iframe" title="PDF Viewer for side-by-side comparison"></iframe>
+   </aside>
+
+  </div>
+
+  <script src="assets/js/vendor/purify.esm.js"></script>
+  <script src="assets/js/vendor/marked.esm.js"></script>
+  <script>
+
+   // LIBRUS v25 – main.js
+   // Clean overlay management: one at a time, click-outside to close, subtle backdrop.
+
+   document.addEventListener('DOMContentLoaded', () => {
+    console.log('LIBRUS v25 initialized – built to last.');
+
+    let currentlyOpenOverlay = null;
+
+    // === OVERLAY MANAGEMENT ===
+    window.toggleOverlay = function (id) {
+     const overlay = document.getElementById(id);
+     if (!overlay) return;
+
+     // Close any currently open overlay first
+     if (currentlyOpenOverlay && currentlyOpenOverlay !== overlay) {
+      currentlyOpenOverlay.style.display = 'none';
+     }
+
+     const isOpen = overlay.style.display === 'flex';
+
+     if (isOpen) {
+      overlay.style.display = 'none';
+      currentlyOpenOverlay = null;
+     } else {
+      overlay.style.display = 'flex';
+      currentlyOpenOverlay = overlay;
+     }
+    };
+
+    // Close all overlays when clicking outside (on the backdrop)
+    document.querySelectorAll('.overlay').forEach(overlay => {
+     overlay.addEventListener('click', (e) => {
+      // If user clicks directly on the overlay (backdrop), close it
+      if (e.target === overlay) {
+       overlay.style.display = 'none';
+       currentlyOpenOverlay = null;
+      }
+     });
+    });
+
+    // === TOOLBARS MOVE UP 50px ON SCROLL DOWN, TOPBAR HIDES ===
+    const topbar = document.getElementById('topbar');
+    const mainToolbar = document.getElementById('main-panel-toolbar');
+    const contextToolbar = document.getElementById('context-panel-toolbar');
+    const mainContent = document.getElementById('main-content');
+
+    let lastScrollY = 0;
+    let ticking = false;
+
+    function handleScroll() {
+     if (!mainContent) return;
+     const scrollY = mainContent.scrollTop;
+
+     if (scrollY > lastScrollY && scrollY > 600) {
+      // Scrolling DOWN
+      topbar.style.transitionDuration = '0.35s';
+      topbar.style.marginTop = `-${topbar.offsetHeight}px`;
+
+      // Toolbars move up 50px
+      if (mainToolbar) {
+       mainToolbar.style.transitionDuration = '0.35s';
+       mainToolbar.style.marginTop = '0px';
+      }
+      if (contextToolbar) {
+       contextToolbar.style.transitionDuration = '0.35s';
+       contextToolbar.style.marginTop = '0px';
+      }
+     }
+     else if (scrollY < lastScrollY) {
+      // Scrolling UP → restore everything
+      topbar.style.transitionDuration = '0.65s';
+      topbar.style.marginTop = '0px';
+
+      if (mainToolbar) {
+       mainToolbar.style.transitionDuration = '0.65s';
+       mainToolbar.style.marginTop = '0px';
+      }
+      if (contextToolbar) {
+       contextToolbar.style.transitionDuration = '0.65s';
+       contextToolbar.style.marginTop = '0px';
+      }
+     }
+
+     lastScrollY = scrollY;
+     ticking = false;
+    }
+
+    if (mainContent) {
+     mainContent.addEventListener('scroll', () => {
+      if (!ticking) {
+       requestAnimationFrame(handleScroll);
+       ticking = true;
+      }
+     });
+    }
+
+    // === DARK MODE ===
+    window.toggleDarkMode = function () {
+     document.documentElement.classList.toggle('dark');
+     localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
+    };
+
+    if (localStorage.getItem('darkMode') === 'true') {
+     document.documentElement.classList.add('dark');
+    }
+
+    // === MD LOADING ===
+    window.loadBook = function (content, title = '') {
+     const container = document.getElementById('main-content');
+     if (!container) return;
+
+     const cleanHTML = DOMPurify.sanitize(marked.parse(content));
+     container.innerHTML = `
+            ${title ? `<h1>${title}</h1>` : ''}
+            <div class="main-content-body">${cleanHTML}</div>
+        `;
+    };
+
+    // === PDF LOADING ===
+    window.loadPdf = function (file) {
+     if (!file) return;
+     const url = URL.createObjectURL(file);
+     const iframe = document.getElementById('context-iframe');
+     iframe.src = url;
+    };
+
+    // Stub for share
+    window.shareCurrentBook = function () {
+     alert('Share functionality coming soon...');
+    };
+
+    // Keyboard escape support
+    document.addEventListener('keydown', (e) => {
+     if (e.key === 'Escape' && currentlyOpenOverlay) {
+      currentlyOpenOverlay.style.display = 'none';
+      currentlyOpenOverlay = null;
+     }
+    });
+   });
+
+  </script>
+
+ </body>
+
+</html>

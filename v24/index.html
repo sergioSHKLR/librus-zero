@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>librus v.24 — Super eReader</title>
+
+  <link rel="stylesheet"
+   href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+  <style>
+   :root {
+    --topbar-h: 50px;
+    --panel-header-h: 50px;
+    --text-primary: #111;
+    --text-muted: #666;
+    --border-color: #e0e0e0;
+    --bg-body: #fff;
+   }
+
+   [data-theme="dark"] {
+    --text-primary: #e8e8e8;
+    --text-muted: #aaa;
+    --border-color: #444;
+    --bg-body: #1c1c1c;
+   }
+
+   * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+   }
+
+   body {
+    font-family: "Inter", system-ui, sans-serif;
+    background: var(--bg-body);
+    color: var(--text-primary);
+    height: 100dvh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+   }
+
+   #global-topbar {
+    position: relative;
+    height: var(--topbar-h);
+    background: var(--bg-body);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 12px;
+    flex-shrink: 0;
+    z-index: 300;
+    /* Smooth out margin transitions */
+    transition: margin-top 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+   }
+
+   /* This creates the shorter border */
+   #global-topbar::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    /* Centers the border perfectly */
+    width: 98%;
+    /* Sets the exact width of the border */
+    height: 1px;
+    /* Sets the thickness of the border */
+    background-color: var(--border-color);
+   }
+
+   /* We remove the .hidden transform rules entirely */
+
+   #global-topbar.hidden {
+    transform: translateY(-100%);
+   }
+
+   .panel-header {
+    height: var(--panel-header-h);
+    background: var(--bg-body);
+    /*
+    border-bottom: 1px solid var(--border-color); */
+
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 12px;
+    flex-shrink: 0;
+    z-index: 200;
+    /* Use absolute or sticky style coordination inside the panel if needed, 
+    but smooth transition on layout parameters works beautifully here */
+    transition: top 0.4s cubic-bezier(0.25, 1, 0.5, 1), margin-top 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+   }
+
+   .panel-header.hidden {
+    transform: translateY(-100%);
+   }
+
+   .btn {
+    background: transparent;
+    color: var(--text-muted);
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 6px;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+   }
+
+   .btn:hover {
+    color: var(--text-primary);
+   }
+
+   .btn:active {
+    transform: scale(0.92);
+   }
+
+   .brand {
+    font-weight: 600;
+    font-size: 1.2rem;
+    letter-spacing: -0.5px;
+   }
+
+   #workspace {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+   }
+
+   .panel {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+   }
+
+   /* This creates the shorter border */
+   .panel::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1px;
+    height: 95%;
+    border-left: 1px solid var(--border-color);
+   }
+
+   .panel:last-child {
+    border-right: none;
+   }
+
+   #main-search-container {
+    flex: 1;
+    /* CHANGE: Set starting and ending boundary constraints on the parent */
+    max-width: 180px;
+    display: flex;
+    background: var(--bg-body);
+    border: none;
+    border-radius: 6px;
+    overflow: hidden;
+    /* CHANGE: Transition the max-width property */
+    transition: max-width 0.4s ease-in-out;
+   }
+
+   /* CHANGE: Target the container when the input inside gets focus */
+   #main-search-container:focus-within {
+    max-width: 460px;
+   }
+
+   #main-search-input {
+    flex: 1;
+    width: 100%;
+   }
+
+   #main-search-input:focus {
+    border-color: #007bff;
+   }
+
+   #main-search-icon {
+    background: none;
+    border: none;
+    /* Left padding matches your design */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+   }
+
+   input {
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+   }
+
+   #main-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 40px 56px;
+    font-family: "EB Garamond", serif;
+    font-size: 1.2rem;
+    line-height: 1.82;
+    max-width: 860px;
+    margin: 0 auto;
+   }
+
+   #context-panel {
+    position: relative;
+   }
+
+   #context-panel iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+   }
+
+   #ctx-shade {
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(10px);
+    filter: grayscale(1);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    z-index: 10;
+    font-size: 1.1rem;
+    pointer-events: none;
+    border-left: 1px solid var(--border-color)
+   }
+
+   /* LEFT OVERLAYS */
+   .overlay-drawer {
+    position: fixed;
+    top: var(--topbar-h);
+    left: 0;
+    height: calc(100dvh - var(--topbar-h));
+    background: var(--bg-body);
+    border-right: 1px solid var(--border-color);
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+   }
+
+   .overlay-drawer.open {
+    transform: translateX(0);
+    box-shadow: 8px 0 30px -8px rgba(0, 0, 0, 0.3);
+
+   }
+
+   #library-drawer {
+    width: 460px;
+   }
+
+   #toc-drawer,
+   #settings-drawer {
+    width: 300px;
+   }
+
+   .drawer-header {
+    height: 50px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    font-weight: 600;
+    flex-shrink: 0;
+   }
+
+   #library-filter {
+    margin: 12px 16px;
+    padding: 10px 14px;
+    width: calc(100% - 32px);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 1rem;
+   }
+
+   #library-grid {
+    flex: 1;
+    overflow: auto;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
+    gap: 24px;
+   }
+
+   .book-card {
+    cursor: pointer;
+    transition: all 0.25s ease;
+   }
+
+   .book-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.3);
+   }
+
+   .book-cover {
+    aspect-ratio: 5 / 8;
+    width: 100%;
+    background: #222;
+    border-radius: 4px 4px 2px 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 2.8rem;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15), 0 8px 16px -4px rgba(0, 0, 0, 0.4);
+   }
+
+   .book-title {
+    font-size: 0.8rem;
+    margin-top: 10px;
+    text-align: center;
+    line-height: 1.25;
+   }
+
+   #backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(8px);
+    z-index: 900;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+   }
+
+   #backdrop.show {
+    display: block;
+    opacity: 1;
+   }
+
+   #alert-portrait {
+    position: fixed;
+    inset: 0;
+    background: #111;
+    color: #fff;
+    z-index: 9999;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    text-align: center;
+   }
+
+   @media (max-width: 1024px) and (orientation: portrait) {
+    #alert-portrait {
+     display: flex;
+    }
+
+    #workspace,
+    .overlay-drawer {
+     display: none;
+    }
+   }
+  </style>
+ </head>
+
+ <body data-theme="light">
+
+  <!-- GLOBAL TOPBAR -->
+  <header id="global-topbar">
+   <button class="btn" id="library-btn" title="Library"><span
+     class="material-symbols-outlined">library_books</span></button>
+   <button class="btn" id="toc-btn" title="Table of Contents"><span
+     class="material-symbols-outlined">toc</span></button>
+   <div class="brand">librus <span style="font-size:0.82rem;opacity:0.6;">v24</span></div>
+   <div style="flex:1"></div><button class="btn"><span class="material-symbols-outlined">deployed_code</span></button>
+   <button class="btn" id="btn-dark" title="Toggle Theme"><span
+     class="material-symbols-outlined">dark_mode</span></button>
+   <button class="btn" id="settings-btn" title="Settings"><span
+     class="material-symbols-outlined">settings</span></button>
+  </header>
+
+  <!-- WORKSPACE -->
+  <div id="workspace">
+   <div class="panel" id="main-panel">
+    <div class="panel-header" id="main-panel-header">
+     <div id="main-search-container">
+      <input type="text" id="main-search-input" placeholder="Search in current book...">
+      <button class="btn"><span class="material-symbols-outlined">search</span></button><span>0/0</span><button
+       class="btn"><span class="material-symbols-outlined">keyboard_arrow_down</span></button><button class="btn"><span
+        class="material-symbols-outlined">keyboard_arrow_up</span></button>
+     </div>
+     <div style="flex:1"></div>
+     <button class="btn" id="typo-btn"><span class="material-symbols-outlined">format_size</span></button>
+    </div>
+    <div id="main-body">
+     <article id="reader-content">
+      <h1 style="text-align:center; margin-top:80px; opacity:0.7;">Welcome to Librus v24</h1>
+      <p style="text-align:center;">Open the Library and select a book</p>
+     </article>
+    </div>
+   </div>
+
+   <div class="panel" id="context-panel">
+    <div class="panel-header">
+     <button class="btn" id="ctx-back"><span class="material-symbols-outlined">arrow_back</span></button>
+     <button class="btn" id="ctx-encyclopedia"><span class="material-symbols-outlined">public</span></button>
+     <button class="btn" id="ctx-dictionary"><span class="material-symbols-outlined">book</span></button>
+     <div style="flex:1"></div>
+     <button class="btn" id="ctx-share" title="Share"><span class="material-symbols-outlined">share</span></button>
+     <button class="btn" id="ctx-expand" title="Expand"><span
+       class="material-symbols-outlined">expand_content</span></button>
+     <button class="btn" id="ctx-visibility" title="Anti-Distraction Shade"><span
+       class="material-symbols-outlined">visibility_off</span></button>
+    </div>
+    <iframe id="context-iframe" src="about:blank"></iframe>
+    <div id="ctx-shade">
+     <p>Focus Mode Active — Distractions Shielded</p>
+    </div>
+   </div>
+  </div>
+
+  <div id="backdrop"></div>
+
+  <!-- DRAWERS -->
+  <aside id="library-drawer" class="overlay-drawer">
+   <div class="drawer-header">
+    Digital Library
+    <button class="btn" id="upload-md-btn" style="margin-left:auto" title="Upload .md"><span
+      class="material-symbols-outlined">upload_file</span></button>
+   </div>
+   <input type="text" id="library-filter" placeholder="Type to filter...">
+   <div id="library-grid"></div>
+  </aside>
+
+  <aside id="toc-drawer" class="overlay-drawer">
+   <div class="drawer-header">Table of Contents</div>
+   <input type="text" id="toc-filter" placeholder="Filter chapters..."
+    style="margin:12px 16px; padding:10px; width:calc(100% - 32px);">
+   <div id="toc-content" style="flex:1; overflow:auto; padding:8px 20px;"></div>
+  </aside>
+
+  <aside id="settings-drawer" class="overlay-drawer">
+   <div class="drawer-header">Configuration</div>
+   <div style="padding:24px;">Configuration content</div>
+  </aside>
+
+  <div id="alert-portrait">
+   <div style="width:72px;height:148px;border:5px solid #fff;border-radius:16px;position:relative;"></div>
+   <h2>Landscape Mode Required</h2>
+   <p>Rotate your device for the full interface.</p>
+  </div>
+
+  <script>
+   document.addEventListener('DOMContentLoaded', () => {
+    // Core elements
+    const topbar = document.getElementById('global-topbar');
+    const mainHeader = document.getElementById('main-panel-header');
+    const libraryBtn = document.getElementById('library-btn');
+    const tocBtn = document.getElementById('toc-btn');
+    const settingsBtn = document.getElementById('settings-btn');
+    const darkBtn = document.getElementById('btn-dark');
+    const backdrop = document.getElementById('backdrop');
+
+    const libraryDrawer = document.getElementById('library-drawer');
+    const tocDrawer = document.getElementById('toc-drawer');
+    const settingsDrawer = document.getElementById('settings-drawer');
+    const drawers = [libraryDrawer, tocDrawer, settingsDrawer];
+
+    const mainBody = document.getElementById('main-body');
+    const readerContent = document.getElementById('reader-content');
+
+    // Drawer controls
+    function closeAllDrawers() {
+     drawers.forEach(d => d.classList.remove('open'));
+     backdrop.classList.remove('show');
+    }
+
+    function openDrawer(drawer) {
+     closeAllDrawers();
+     drawer.classList.add('open');
+     backdrop.classList.add('show');
+    }
+
+    libraryBtn.addEventListener('click', () => openDrawer(libraryDrawer));
+    tocBtn.addEventListener('click', () => openDrawer(tocDrawer));
+    settingsBtn.addEventListener('click', () => openDrawer(settingsDrawer));
+
+    backdrop.addEventListener('click', closeAllDrawers);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAllDrawers(); });
+
+    // Dark mode
+    darkBtn.addEventListener('click', () => {
+     const isDark = document.body.getAttribute('data-theme') === 'dark';
+     document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+     darkBtn.querySelector('span').textContent = isDark ? 'dark_mode' : 'light_mode';
+    });
+
+    // Unified topbar + main toolbar scroll behavior with dynamic return speeds
+    let lastScrollY = 0;
+    let ticking = false;
+
+    function handleScroll() {
+     const scrollY = mainBody.scrollTop;
+
+     if (scrollY > lastScrollY && scrollY > 800) {
+      // 1. Snappy transition while hiding/rolling up
+      topbar.style.transitionDuration = '0.35s';
+      mainHeader.style.transitionDuration = '0.35s';
+
+      // 2. Hide/dock the positions
+      topbar.style.marginTop = `-${topbar.offsetHeight}px`;
+      mainHeader.style.marginTop = `0px`;
+     } else if (scrollY < lastScrollY) {
+      // 1. Stretch the time duration out for the roll-back down animation (e.g., 0.7 seconds)
+      topbar.style.transitionDuration = '0.7s';
+      mainHeader.style.transitionDuration = '0.7s';
+
+      // 2. Restore positions smoothly
+      topbar.style.marginTop = '0px';
+      mainHeader.style.marginTop = '0px';
+     }
+
+     lastScrollY = scrollY;
+     ticking = false;
+    }
+
+    mainBody.addEventListener('scroll', () => {
+     if (!ticking) {
+      requestAnimationFrame(handleScroll);
+      ticking = true;
+     }
+    });
+
+    // 12 Books Data Array
+    const books = [
+     { title: "A Scandal in Bohemia", file: "../books/adv_01_scandal_in_bohemia.md", emoji: "👑" },
+     { title: "The Red-Headed League", file: "books/adv_02_red_headed_league.md", emoji: "🧑‍🦰" },
+     { title: "A Case of Identity", file: "books/adv_03_a_case_of_identity.md", emoji: "🔍" },
+     { title: "The Boscombe Valley Mystery", file: "books/adv_04_boscombe_valley_mystery.md", emoji: "🌲" },
+     { title: "The Five Orange Pips", file: "books/adv_05_five_orange_pips.md", emoji: "🍊" },
+     { title: "The Man with the Twisted Lip", file: "books/adv_06_the_man_with_the_twisted_lip.md", emoji: "🎭" },
+     { title: "The Blue Carbuncle", file: "books/adv_07_the_blue_carbuncle.md", emoji: "💎" },
+     { title: "The Speckled Band", file: "books/adv_08_the_speckled_band.md", emoji: "🐍" },
+     { title: "The Engineer’s Thumb", file: "books/adv_09_the_engineers_thumb.md", emoji: "⚙️" },
+     { title: "The Noble Bachelor", file: "books/adv_10_the_noble_bachelor.md", emoji: "🍷" },
+     { title: "The Beryl Coronet", file: "books/adv_11_the_beryl_coronet.md", emoji: "💍" },
+     { title: "The Copper Beeches", file: "books/adv_12_the_copper_beeches.md", emoji: "🌳" }
+    ];
+
+    // Robust parsing and initialization logic
+    async function loadBook(book) {
+     try {
+      const response = await fetch(book.file);
+      if (!response.ok) throw new Error('File not found');
+      let mdText = await response.text();
+
+      // Clean inline formatting elements first
+      mdText = mdText
+       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+       .replace(/\*(.*?)\*/g, '<em>$1</em>');
+
+      // Split paragraphs safely by double newline to avoid nesting headers in tags
+      const blocks = mdText.split(/\n\n+/);
+      const HTMLblocks = blocks.map(block => {
+       const trimmed = block.trim();
+       if (trimmed.startsWith('### ')) return `<h3>${trimmed.replace('### ', '')}</h3>`;
+       if (trimmed.startsWith('## ')) return `<h2>${trimmed.replace('## ', '')}</h2>`;
+       if (trimmed.startsWith('# ')) return `<h1>${trimmed.replace('# ', '')}</h1>`;
+       return `<p>${trimmed}</p>`;
+      });
+
+      readerContent.innerHTML = `<h1>${book.title}</h1>` + HTMLblocks.join('');
+      closeAllDrawers();
+      mainBody.scrollTop = 0;
+     } catch (err) {
+      readerContent.innerHTML = `<p style="color:red;">Could not load ${book.file}<br>${err.message}</p>`;
+     }
+    }
+
+    function renderLibrary(filtered = books) {
+     const grid = document.getElementById('library-grid');
+     // Bind unique property strings directly to avoid filter/index bugs
+     grid.innerHTML = filtered.map((book) => `
+                  <div class="book-card" data-file="${book.file}" data-title="${book.title}">
+                      <div class="book-cover">${book.emoji}</div>
+                      <div class="book-title">${book.title}</div>
+                  </div>
+              `).join('');
+
+     grid.querySelectorAll('.book-card').forEach(card => {
+      card.addEventListener('click', () => {
+       const selectedBook = {
+        title: card.dataset.title,
+        file: card.dataset.file
+       };
+       loadBook(selectedBook);
+      });
+     });
+    }
+
+    renderLibrary();
+
+    document.getElementById('library-filter').addEventListener('input', (e) => {
+     const term = e.target.value.toLowerCase();
+     const filtered = books.filter(b => b.title.toLowerCase().includes(term));
+     renderLibrary(filtered);
+    });
+
+    // Context shade
+    const shade = document.getElementById('ctx-shade');
+    const visibilityBtn = document.getElementById('ctx-visibility');
+    let shadeActive = false;
+
+    visibilityBtn.addEventListener('click', () => {
+     shadeActive = !shadeActive;
+     shade.style.display = shadeActive ? 'flex' : 'none';
+     visibilityBtn.querySelector('span').textContent = shadeActive ? 'visibility' : 'visibility_off';
+    });
+
+    document.getElementById('ctx-share').addEventListener('click', () => alert('Share current reading position'));
+    document.getElementById('ctx-expand').addEventListener('click', () => alert('Context panel expanded'));
+
+    console.log('%c✅ Librus v24 — Both toolbars now hide safely on scroll down', 'color:#0066cc; font-weight:700');
+   });
+  </script>
+ </body>
+ <script type="module" src="js/main.js"></script>
+
+</html>
