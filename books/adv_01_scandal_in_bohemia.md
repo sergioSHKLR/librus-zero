@@ -1,11 +1,8 @@
-# A Scandal in Bohemia
 ## The Adventures of Sherlock Holmes
-
-
 
 ### Section I.
 
-To Sherlock Holmes she is always _the_ woman. I have seldom heard him
+To Sherlock Holmes she is always *the* woman. I have seldom heard him
 mention her under any other name. In his eyes she eclipses and
 predominates the whole of her sex. It was not that he felt any emotion
 akin to love for Irene Adler. All emotions, and that one particularly,
@@ -299,7 +296,7 @@ Bohemia.”
 more and passing his hand over his high white forehead, “you can
 understand that I am not accustomed to doing such business in my own
 person. Yet the matter was so delicate that I could not confide it to
-an agent without putting myself in his power. I have come _incognito_
+an agent without putting myself in his power. I have come *incognito*
 from Prague for the purpose of consulting you.”
 
 “Then, pray consult,” said Holmes, shutting his eyes once more.
@@ -432,7 +429,7 @@ Von Kramm.”
 
 “Then, as to money?”
 
-“You have _carte blanche_.”
+“You have *carte blanche*.”
 
 “Absolutely?”
 
@@ -509,7 +506,7 @@ perhaps the house, of Miss Irene Adler.”
 I left the house a little after eight o’clock this morning in the
 character of a groom out of work. There is a wonderful sympathy and
 freemasonry among horsey men. Be one of them, and you will know all
-that there is to know. I soon found Briony Lodge. It is a _bijou_
+that there is to know. I soon found Briony Lodge. It is a *bijou*
 villa, with a garden at the back, but built out in front right up to
 the road, two stories. Chubb lock to the door. Large sitting-room on
 the right side, well furnished, with long windows almost to the floor,
@@ -1031,7 +1028,7 @@ midnight of the preceding night and ran in this way:
 
     “Very truly yours,
 
-    “IRENE NORTON, _née_ ADLER.”
+    “IRENE NORTON, *née* ADLER.”
 
 
 “What a woman—oh, what a woman!” cried the King of Bohemia, when we had
@@ -1075,8 +1072,5 @@ Bohemia, and how the best plans of Mr. Sherlock Holmes were beaten by a
 woman’s wit. He used to make merry over the cleverness of women, but I
 have not heard him do it of late. And when he speaks of Irene Adler, or
 when he refers to her photograph, it is always under the honourable
-title of _the_ woman.
-
-
-
+title of *the* woman.
 

@@ -1,2 +1,0 @@
-# librus-zero
-librus-zero
