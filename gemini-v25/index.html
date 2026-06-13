@@ -10,17 +10,14 @@
        crossorigin is required for font preloads. We ship a serve.json that makes
        plain `npx serve` (from this dir) automatically send the needed ACAO headers. -->
   <link rel="preload" href="assets/fonts/webfonts/RobotoSlab-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="preload" href="assets/fonts/webfonts/MaterialSymbolsOutlined%5BFILL%2CGRAD%2Copsz%2Cwght%5D.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/webfonts/MaterialSymbolsOutlined.woff2" as="font" type="font/woff2" crossorigin>
 
   <link rel="stylesheet" href="assets/css/non-critical.css" media="print" onload="this.media='all'">
   <noscript>
    <link rel="stylesheet" href="assets/css/non-critical.css">
   </noscript>
 
-  <script defer src="assets/js/vendor/purify.esm.js" type="module"></script>
-  <script defer src="assets/js/vendor/marked.esm.js" type="module"></script>
-
-  <script defer src="assets/js/main.js"></script>
+  <script type="module" src="assets/js/main.js"></script>
 
   <style>
    /**
@@ -61,7 +58,8 @@
     font-family: 'Material Symbols Outlined';
     font-style: normal;
     font-weight: 100 700;
-   /* Icon base (critical so <span class="material-symbols-outlined"> render immediately) */
+    src: url('assets/fonts/webfonts/MaterialSymbolsOutlined.woff2') format('woff2');
+   }
    .material-symbols-outlined {
     font-family: 'Material Symbols Outlined';
     font-weight: normal;
@@ -163,8 +161,6 @@
     font-family: var(--font-serif);
    }
 
-   .main-content {
-    flex: 1;
    .main-content {
     flex: 1;
     font-family: var(--font-serif);

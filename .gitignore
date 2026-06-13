@@ -4,3 +4,8 @@ v20/
 v30/
 .vscode/
 setup.sh
+
+# Temporary dev screenshots / captures in the experimental reader
+gemini-v25/image*.png
+gemini-v25/*.png
+gemini-v25/screenshots/
