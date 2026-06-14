@@ -4,6 +4,8 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+   content="GEMINI v25 - A high-performance split-panel eReader application optimized for side-by-side text analysis and document management.">
   <title>GEMINI v25 – Super eReader</title>
 
   <!-- Preload webfonts early (critical for body text + icons).
@@ -114,7 +116,7 @@
 
    .topbar-left,
    .topbar-right {
-    width: 25%;
+    min-width: 25%;
     padding: 0 40px 0 20px;
    }
 
@@ -271,7 +273,8 @@
    <section id="main-panel" class="panel main-panel">
     <div id="main-panel-toolbar" class="toolbar main-panel-toolbar">
      <div class="main-panel-toolbar-left">
-      <input type="text" id="search-input" placeholder="Search in book...">
+      <input type="text" id="search-input" placeholder="Search in book..."
+       aria-label="Search within the active book content">
       <button class="btn" title="Search"><span class="material-symbols-outlined">search</span></button>
       <span id="search-results">0/0</span>
       <button class="btn" title="Next"><span class="material-symbols-outlined">keyboard_arrow_down</span></button>

@@ -75,6 +75,8 @@
  height: 50px;
  justify-content: flex-end;
  padding: 20px;
+ width: auto;
+ flex-shrink: 0;
 }
 
 #main-panel-toolbar::after {
