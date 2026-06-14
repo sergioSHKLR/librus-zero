@@ -65,7 +65,6 @@
  gap: 10px;
  height: 50px;
  padding: 20px;
- width: 100%;
 }
 
 .main-panel-toolbar-right,
@@ -76,7 +75,6 @@
  height: 50px;
  justify-content: flex-end;
  padding: 20px;
- width: 100%;
 }
 
 #main-panel-toolbar::after {
@@ -167,13 +165,12 @@
 .main-content h3 {
  border-bottom: 1px solid var(--color-border);
  font-family: var(--font-serif);
- margin: 2.5em 0 1em;
- padding-bottom: .5em;
+ margin: 10px 0 10px;
 }
 
 .main-content p {
  hyphens: auto;
- margin-bottom: 1.5em;
+ margin-bottom: 10px;
  text-align: justify;
 }
 
@@ -234,7 +231,4 @@ a {
   display: flex !important;
  }
 
- #app-wrapper {
-  display: none;
- }
 }
