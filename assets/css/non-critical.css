@@ -75,8 +75,11 @@
  height: 50px;
  justify-content: flex-end;
  padding: 20px;
+<<<<<<< HEAD
  width: auto;
  flex-shrink: 0;
+=======
+>>>>>>> 3eddad9ba94b9cb4210c77e66f4e9660481ca0d9
 }
 
 #main-panel-toolbar::after {

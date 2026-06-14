@@ -1,13 +1,29 @@
 {
   "headers": [
     {
+<<<<<<< HEAD
       "source": "assets/**/*.{woff2,ttf,css,js}",
       "headers": [
         {
           "key": "Cache-Control",
           "value": "public, max-age=31536000, immutable"
+=======
+      "source": "**/*",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "*"
+>>>>>>> 3eddad9ba94b9cb4210c77e66f4e9660481ca0d9
         }
       ]
     }
   ]
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 3eddad9ba94b9cb4210c77e66f4e9660481ca0d9
